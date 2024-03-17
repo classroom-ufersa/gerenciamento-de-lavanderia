@@ -114,7 +114,7 @@ clientes* retirar_cliente(clientes *pessoa, FILE *arquivo_cliente){
 
      for(cliente_temp = pessoa; cliente_temp != NULL; cliente_temp = cliente_temp->prox){
         fprintf(arquivo_cliente, "Nome: %s\n", cliente_temp->nome);
-        fprintf(arquivo_cliente, "Endereço: %s\n", cliente_temp->numero);
+        fprintf(arquivo_cliente, "Numero de Telefone: %s\n", cliente_temp->numero);
         fprintf(arquivo_cliente, "\n");
     }
     
