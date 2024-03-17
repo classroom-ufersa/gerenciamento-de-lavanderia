@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "clientes.h"
 #include <string.h>
+#include <ctype.h>
 
 
 typedef struct Cliente{
@@ -16,17 +17,56 @@ clientes* lista_cria(void){
 }
 
 
+void limpabuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+int verificar_nome(char nome[50]) {
+    int tamanho_da_string = strlen(nome);
+    for (int i = 0; i < tamanho_da_string; i++) {
+         if (!isalpha(nome[i])  && nome[i] != ' '){
+            limpabuffer();
+            printf("Nome invalido, digite novamente.\n");
+            return 1;
+        }
+    }
+    return 0;
+}
+
+
+int verificar_numero(char numero[15]) {
+    int tamanho_da_string = strlen(numero);
+    for (int i = 0; i < tamanho_da_string; i++) {
+        if (!isdigit(numero[i]) && numero[i] != ' '){
+            limpabuffer();
+            printf("Numero invalido, digite novamente.\n");
+            return 1;
+        }
+    }
+    return 0;
+}
 
 
 clientes* add_clientes(clientes *l, FILE * arquivo_cliente){
     clientes *novo = (clientes*)malloc(sizeof(clientes));
     printf("Digite o nome do cliente: ");
     scanf(" %[^\n]", novo->nome);
+    while(verificar_nome(novo->nome) == 1){
+        printf("Digite o nome do cliente: ");
+        scanf(" %[^\n]", novo->nome);
+    }
+
     printf("Digite o numero do cliente: ");
     scanf(" %[^\n]", novo->numero);
+    while(verificar_numero(novo->numero) == 1){
+        printf("Digite o numero do cliente: ");
+        scanf(" %[^\n]", novo->numero);
+    }
+
     
     fprintf(arquivo_cliente, "Nome: %s\n", novo->nome);
-    fprintf(arquivo_cliente, "Endereço: %s\n", novo->numero);
+    fprintf(arquivo_cliente, "Numero de Telefone: %s\n", novo->numero);
     fprintf(arquivo_cliente, "\n");
     novo->prox = l;
     return novo;
