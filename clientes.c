@@ -123,3 +123,24 @@ clientes* retirar_cliente(clientes *pessoa, FILE *arquivo_cliente){
     printf("Cliente %s retirado da lista e arquivo atualizado.\n", nome);
     return pessoa;
 }
+
+void busca_de_cliente(clientes *pessoa){
+    char nome[50];
+    clientes *cliente_atual = pessoa;
+    printf("Digite o nome do cliente que deseja buscar: ");
+    scanf(" %[^\n]", nome);
+    
+    while(cliente_atual != NULL && strcmp(cliente_atual->nome, nome) != 0){
+        cliente_atual = cliente_atual->prox;
+    }
+    
+    if(cliente_atual == NULL){
+        printf("Cliente nao encontrado no sistema.\n");
+        return;
+    }
+
+    printf("Dados do Cliente encontrado: \n");
+    printf("Nome: %s\n", cliente_atual->nome);
+    printf("Numero: %s\n", cliente_atual->numero);
+}
+

@@ -15,4 +15,5 @@ int verificar_numero(char numero[15]);
 
 void limpabuffer();
 
+void busca_de_cliente(clientes *pessoa);
 
