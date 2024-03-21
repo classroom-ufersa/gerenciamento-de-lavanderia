@@ -1,0 +1,3 @@
+0    Apenas coleta                                     10
+1    Apenas entrega                                    12
+2    Coleta e entrega                                  20

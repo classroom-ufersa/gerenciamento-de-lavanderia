@@ -1,0 +1,7 @@
+0    Camisas                                           5   
+1    Calcas                                            7
+2    Vestidos                                          8
+3    Roupas de cama                                    12
+4    Toalhas                                           5
+5    Ternos e vestidos de festa                        25
+6    Edredons e cobertores                             20
