@@ -1,5 +1,6 @@
 
 typedef struct Cliente clientes;
+typedef struct pedidos pedidos;
 
 clientes* lista_cria(void);
 
@@ -16,4 +17,8 @@ int verificar_numero(char numero[15]);
 void limpabuffer();
 
 void busca_de_cliente(clientes *pessoa);
+
+pedidos* add_pedidos(pedidos *lista_pedidos, Pedido *pedido);
+
+pedidos *remover_pedido(pedidos *lista_pedidos, Pedido *pedido);
 
