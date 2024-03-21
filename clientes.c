@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "clientes.h"
+#include "pedidos.h"
 #include <string.h>
 #include <ctype.h>
 
@@ -8,6 +9,7 @@
 typedef struct Cliente{
     char nome[50];
     char numero[15];
+    pedidos *lista_pedidos;
     clientes *prox;
 }clientes;
 
@@ -15,6 +17,16 @@ typedef struct Cliente{
 clientes* lista_cria(void){
     return NULL;
 }
+
+typedef struct pedidos{
+    Pedido *pedido; 
+    pedidos *prox;
+}pedidos;
+
+pedidos* lista_cria_pedido(void){
+    return NULL;
+}
+
 
 
 void limpabuffer() {
@@ -81,7 +93,6 @@ void lista_imprime(clientes *l){
 }
 
 
-
 clientes* retirar_cliente(clientes *pessoa, FILE *arquivo_cliente){
     char nome[50];
 
@@ -144,3 +155,34 @@ void busca_de_cliente(clientes *pessoa){
     printf("Numero: %s\n", cliente_atual->numero);
 }
 
+pedidos* add_pedidos(pedidos *lista_pedidos, Pedido *pedido){
+    pedidos *novo = (pedidos*)malloc(sizeof(pedidos));
+    novo->pedido = pedido;
+    novo->prox = lista_pedidos;
+    return novo;
+}
+
+pedidos *remover_pedido(pedidos *lista_pedidos, Pedido *pedido){
+    pedidos *pedido_anterior = NULL;
+    pedidos *pedido_atual = lista_pedidos;
+
+    while(pedido_atual != NULL && pedido_atual->pedido != pedido){
+        pedido_anterior = pedido_atual;
+        pedido_atual = pedido_atual->prox;
+    }
+
+    if(pedido_atual == NULL){
+        printf("Pedido nao encontrado na lista.\n");
+        return lista_pedidos;
+    }
+
+    if(pedido_anterior == NULL){
+        lista_pedidos = pedido_atual->prox;
+    } else {
+        pedido_anterior->prox = pedido_atual->prox;
+    }
+
+    free(pedido_atual);
+    printf("Pedido retirado do sistema.\n");
+    return lista_pedidos;
+}
