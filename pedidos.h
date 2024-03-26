@@ -1,60 +1,76 @@
+#ifndef PEDIDOS_H
+#define PEDIDOS_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
+#include <ctype.h>
+#include "clientes.h"
 
-/*Estrutura enumerada para atualização de status do pedido.*/
-typedef enum status_pedido Status_Pedido;
+// Definição das estruturas
 
-/*Estrutura enumerada para ajudar na organização do menu pedidos.*/
-typedef enum menu_pedido Menu_Pedido;
+typedef enum status_pedido {
+    PENDENTE_COLETA,
+    PENDENTE_PROCESSAMENTO,
+    EM_PROCESSAMENTO,
+    PRONTO_ENTREGA,
+    CONCLUIDO
+} Status_Pedido;
 
-/*Estrutura usada para preencher a lista de pedidos.*/
-typedef struct itens Itens;
+typedef struct itens{
+    int id;
+    char nome[50];
+    double valor;
+}Itens;
 
-/*Lista encadeada que armazena os itens do serviços a serem feitos.*/
-typedef struct lista_itens Lista_Itens;
+typedef struct lista_itens{
+    int tipo;
+    Itens* item;
+    int quantidade;
+    struct lista_itens* proxItem;
+}Lista_Itens;
 
-/*Estrutura que contém a lista de itens e demais informações do pedido.*/
+struct pedido{
+    int id;
+    Lista_Itens* lista;
+    Status_Pedido status;
+    double total_pedido;
+};
+
 typedef struct pedido Pedido;
 
-/*Função que inicializa a lista de itens.*/
-Lista_Itens* criar_lista(void);
+typedef enum menu_pedido{
+    LAVAGEM = 1,           
+    PASSADORIA = 2,         
+    COLETA_ENTREGA = 3,      
+    FINALIZAR_PEDIDO = 4,  
+    SAIR = 5               
+}Menu_Pedido;
 
-/*Função para inserir itens na lista do pedido.*/
+// Declaração das funções relacionadas aos itens (Itens, Lista_Itens)
+Lista_Itens* inicializar_lista_itens(void);
 Lista_Itens* inserir_item(Lista_Itens* lista, Itens* item, int quantidade, int tipo);
-
-/*Função para retirar um item da lista.*/
-Lista_Itens* retirar_item(Lista_Itens* lista, Itens* item);
-
-/*Função para verificar se um item já está presente na lista, afim de evitar itens duplicados.*/
-Lista_Itens* verificar(Lista_Itens* lista, Itens* servico);
-
-/*Função para alterar a quantidade de um item já adicionado a lista.*/
-void alterar_quantidade(Lista_Itens* lista, Itens* item, int quantidade);
-
-/*Função para modificar um item da lista.*/
-void modificar_item(Lista_Itens* lista, Itens* item, Itens* itemAux);
-
-/*Função para imprimir os itens da lista.*/
-void imprimir_lista(Lista_Itens* lista);
-
-/*Função para realocar memória de acordo com a quantidade de itens do menu serviços.*/
-void realocar_memoria(Itens** novo, int* tamanho);
-
-/*Função para ler um arquivo texto com a pré-definição de itens e preços e armazenar em um vetor.*/
+Lista_Itens* remover_item(Lista_Itens* lista, Itens* item, int tipo);
+Lista_Itens* verificar_existencia(Lista_Itens* lista, Itens* item, int tipo);
+void alterar_quantidade(Lista_Itens* lista, Itens* item, int quantidade, int tipo);
+void modificar_item(Lista_Itens* lista, Itens* item, Itens* itemAux, int tipo);
+void imprimir_lista_itens(Lista_Itens* lista);
 Itens* arrays_itens(FILE* arquivo);
-
-/*Função para imprimir os itens de cada menu serviço.*/
+void realocar_memoria(Itens** novo, int* tamanho);
 void imprimir_itens(Itens* itens_array, int tamanho);
 
-/*Função para imprimir as opções do menu principal.*/
-Menu_Pedido opcoes_menu();
+// Declaração das funções relacionadas aos pedidos (Pedido)
+void imprimir_pedido(Pedido* pedido);
+Pedido* preencher_pedido(Pedido** novo_pedido, Lista_Itens** lista);
+Pedido* menu_pedido(void);
+void escrever_lista_itens_arquivo(Lista_Itens* lista, FILE* arquivo);
+void escrever_status_pedido(FILE* arquivo, Pedido* pedido);
+void imprimir_status_pedido(Pedido* pedido);
 
-/*Função para preencher pedido com informações além da lista de itens.*/
-Pedido** preencher_pedido(Pedido** novo_pedido, Lista_Itens** lista);
+// Funções auxiliares ou de utilidade geral
+int validar_entrada(const char* print, int min, int max);
+Menu_Pedido opcoes_menu(void);
+void processar_servico(Itens* servico, Lista_Itens** novo_item, int tipo, int quantidade_itens);
 
-/*Função para editar status de um pedido existente.*/
-Pedido* editar_status(Pedido* pedido, int op);
-
-/*Função para manipular adequadamente cada função do menu principal.*/
-void menu_pedido();
+#endif
