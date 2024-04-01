@@ -278,7 +278,8 @@ void processar_servico(Itens* servico, Lista_Itens** novo_item, int tipo, int qu
                 break;
             } 
             else{
-                *novo_item = adicionar_item(*novo_item, &servico[opcao3], tipo);
+                quantidade = validar_entrada("Digite a quantidade de itens dessa opção:\n - ", 0, 0);
+                *novo_item = inserir_item(*novo_item, &servico[opcao3], quantidade, tipo);
                 printf("Item adicionado ao pedido.\n");
             }
         } 
