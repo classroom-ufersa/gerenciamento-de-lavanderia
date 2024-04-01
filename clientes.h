@@ -1,24 +1,57 @@
+#ifndef CLIENTES_H
+#define CLIENTES_H
 
-typedef struct Cliente clientes;
-typedef struct pedidos pedidos;
+struct pedido;
 
-clientes* lista_cria(void);
+#include "pedidos.c"
 
-void lista_imprime(clientes *l);
+typedef struct lista_pedidos {
+    Pedido* pedido;
+    struct lista_pedidos* prox;
+} Lista_Pedidos;
 
-clientes* add_clientes(clientes *l, FILE * arquivo_cliente);
+typedef struct clientes {
+    char nome[50];
+    char contato[15];
+    Lista_Pedidos* lista;
+    struct clientes* prox;
+} Clientes;
 
-clientes* retirar_cliente(clientes *pessoa, FILE *arquivo_cliente);
+Clientes* inicializar_lista_clientes(void);
 
-int verificar_nome(char nome[50]);
+Clientes* inserir_cliente(Clientes* lista, char nome[50], char contato[15]);
 
-int verificar_numero(char numero[15]);
+Clientes* adicionar_clientes(Clientes* lista);
 
-void limpabuffer();
+Clientes* remover_cliente(Clientes* lista);
 
-void busca_de_cliente(clientes *pessoa);
+Clientes* buscar_cliente(Clientes* lista);
 
-pedidos* add_pedidos(pedidos *lista_pedidos, Pedido *pedido);
+Lista_Pedidos* inicializar_lista_pedidos(void);
 
-pedidos *remover_pedido(pedidos *lista_pedidos, Pedido *pedido);
+void adicionar_pedidos(Clientes* cliente, Pedido* pedido);
+
+Lista_Pedidos* remover_pedido(Clientes* cliente, struct pedido* pedido);
+
+void limpabuffer(void);
+
+int validar_nome(const char nome[50]);
+
+void formatar_nome(char *nome);
+
+int validar_contato(const char *numero);
+
+void formatar_contato(char *numero);
+
+void imprimir_lista_pedidos(Clientes* cliente);
+
+struct pedido* buscar_pedido(Clientes* cliente, int id);
+
+void modificar_status(Pedido* pedido);
+
+void escrever_arquivo(Clientes* lista, FILE* arquivo);
+
+void imprimir_clientes_pedidos(Clientes* lista);
+
+#endif
 

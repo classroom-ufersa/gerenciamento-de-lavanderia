@@ -9,14 +9,14 @@ Lista_Itens* inicializar_lista_itens(void){
 Lista_Itens* inserir_item(Lista_Itens* lista, Itens* item, int quantidade, int tipo){
     Lista_Itens* novo = (Lista_Itens*) malloc(sizeof(Lista_Itens));
     if(novo == NULL){
-        printf("Erro ao alocar memória.\n");
+        printf("Erro ao alocar memï¿½ria.\n");
         return lista;
     }
 
     novo->tipo = tipo;
     novo->item = (Itens*) malloc(sizeof(Itens));
     if(novo->item == NULL){
-        printf("Erro ao alocar memória para o novo item.\n");
+        printf("Erro ao alocar memï¿½ria para o novo item.\n");
         free(novo);
         return lista;
     }
@@ -39,7 +39,7 @@ Lista_Itens* remover_item(Lista_Itens* lista, Itens* item, int tipo){
     }
 
     if(atual == NULL){
-        printf("Item não encontrado na lista.\n");
+        printf("Item nï¿½o encontrado na lista.\n");
         return lista;
     }
 
@@ -68,7 +68,7 @@ Lista_Itens* verificar_existencia(Lista_Itens* lista, Itens* item, int tipo){
 
 void alterar_quantidade(Lista_Itens* lista, Itens* item, int quantidade, int tipo){
     if(lista == NULL || item == NULL){
-        printf("Erro: lista ou item inválido.\n");
+        printf("Erro: lista ou item invï¿½lido.\n");
         return;
     }
     Lista_Itens* auxiliar;
@@ -117,15 +117,15 @@ void imprimir_lista_itens(Lista_Itens* lista){
         for(auxiliar = lista; auxiliar != NULL; auxiliar = auxiliar->proxItem){
             if(auxiliar->tipo == 1){
                 printf("\t%d\t%s\n", auxiliar->quantidade, auxiliar->item->nome);
-            } // MODIFICAR IMPRESSÃO
+            } // MODIFICAR IMPRESSï¿½O
         }
     }
     else{
-        printf("Nenhum serviço de lavagem incluso.\n");
+        printf("Nenhum serviï¿½o de lavagem incluso.\n");
     }
 
     if(passadoria){
-        printf("Serviços de passadoria:\n");
+        printf("Serviï¿½os de passadoria:\n");
         for(auxiliar = lista; auxiliar != NULL; auxiliar = auxiliar->proxItem){
             if(auxiliar->tipo == 2){
                 printf("\t%d\t%s\n", auxiliar->quantidade, auxiliar->item->nome);
@@ -133,7 +133,7 @@ void imprimir_lista_itens(Lista_Itens* lista){
         }
     }
     else{
-        printf("Nenhum serviço de passadoria incluso.\n");
+        printf("Nenhum serviï¿½o de passadoria incluso.\n");
     }
 
     if(coleta_entrega){
@@ -144,7 +144,7 @@ void imprimir_lista_itens(Lista_Itens* lista){
         }
     }
     else{
-        printf("Nenhum serviço de coleta e entrega incluso.\n");
+        printf("Nenhum serviï¿½o de coleta e entrega incluso.\n");
     }
 }// verificado
 
@@ -168,7 +168,7 @@ Itens* arrays_itens(FILE* arquivo){
 
     novo = (Itens*) malloc(sizeof(Itens));
     if(novo == NULL){
-        printf("Erro ao alocar memória.\n");
+        printf("Erro ao alocar memï¿½ria.\n");
         return NULL;
     }
 
@@ -193,7 +193,7 @@ void imprimir_itens(Itens* itens_array, int tamanho){
 Pedido* preencher_pedido(Pedido** novo_pedido, Lista_Itens** lista){
     (*novo_pedido) = (Pedido*) malloc(sizeof(Pedido));
     if((*novo_pedido) == NULL){
-        printf("Erro ao alocar memória para novo pedido.\n");
+        printf("Erro ao alocar memï¿½ria para novo pedido.\n");
         return NULL;
     }
 
@@ -252,7 +252,7 @@ int validar_entrada(const char* print, int min, int max){
 Menu_Pedido opcoes_menu(){
     int opcao;
 
-    opcao = validar_entrada("\nMENU SERVIÇOS\n"
+    opcao = validar_entrada("\nMENU SERVIï¿½OS\n"
         "  1 - Lavagem\n"
         "  2 - Passadoria\n"
         "  3 - Coleta e entrega\n"
@@ -268,13 +268,13 @@ void processar_servico(Itens* servico, Lista_Itens** novo_item, int tipo, int qu
     Lista_Itens* validar = NULL;
 
     do{
-        opcao3 = validar_entrada("Digite o código do item desejado: ", 0, quantidade_itens - 1);
+        opcao3 = validar_entrada("Digite o cï¿½digo do item desejado: ", 0, quantidade_itens - 1);
 
         validar = verificar_existencia(*novo_item, &servico[opcao3], tipo);
         if(validar == NULL){
             if(tipo == 3){
                 *novo_item = inserir_item(*novo_item, &servico[opcao3], 1, tipo);
-                printf("Serviço de coleta e entrega adicionado ao pedido.\n");
+                printf("Serviï¿½o de coleta e entrega adicionado ao pedido.\n");
                 break;
             } 
             else{
@@ -283,21 +283,21 @@ void processar_servico(Itens* servico, Lista_Itens** novo_item, int tipo, int qu
             }
         } 
         else{
-            printf("O item já foi adicionado à lista anteriormente.\n");
-            opcao4 = validar_entrada("1 - Alterar quantidade\n2 - Excluir item da lista\n3 - Voltar ao menu inicial\nEscolha uma opção: ", 1, 3);
+            printf("O item jï¿½ foi adicionado ï¿½ lista anteriormente.\n");
+            opcao4 = validar_entrada("1 - Alterar quantidade\n2 - Excluir item da lista\n3 - Voltar ao menu inicial\nEscolha uma opï¿½ï¿½o: ", 1, 3);
             switch(opcao4){
                 case 1:
                     if(tipo == 3){
-                        opcao5 = validar_entrada("1 - Modificar serviço\n2 - Excluir serviço\n3 - Voltar ao menu inicial\nEscolha uma opção: ", 1, 3);
+                        opcao5 = validar_entrada("1 - Modificar serviï¿½o\n2 - Excluir serviï¿½o\n3 - Voltar ao menu inicial\nEscolha uma opï¿½ï¿½o: ", 1, 3);
                         switch(opcao5){
                             case 1:
-                                alt = validar_entrada("Digite a opção de serviço correta a ser inserida na lista: ", 0, 2);
+                                alt = validar_entrada("Digite a opï¿½ï¿½o de serviï¿½o correta a ser inserida na lista: ", 0, 2);
                                 modificar_item(*novo_item, &servico[opcao3], &servico[alt], tipo);
                                 printf("Item modificado.\n");
                                 break;
                             case 2:
                                 remover_item(*novo_item, &servico[opcao3], tipo);
-                                printf("Item de coleta e entrega excluído.\n");
+                                printf("Item de coleta e entrega excluï¿½do.\n");
                                 break;
                             case 3:
                                 break;
@@ -310,13 +310,13 @@ void processar_servico(Itens* servico, Lista_Itens** novo_item, int tipo, int qu
                     break;
                 case 2:
                     remover_item(*novo_item, &servico[opcao3], tipo);
-                    printf("Item excluído.\n");
+                    printf("Item excluï¿½do.\n");
                     break;
                 case 3:
                     break;
             }
         }
-        opcao4 = validar_entrada("Deseja adicionar outros itens?\n1 - Sim\t2 - Não\nEscolha uma opção: ", 1, 2);
+        opcao4 = validar_entrada("Deseja adicionar outros itens?\n1 - Sim\t2 - Nï¿½o\nEscolha uma opï¿½ï¿½o: ", 1, 2);
     }while(opcao4 == 1);
 }// vericado
 
@@ -349,7 +349,7 @@ Pedido* menu_pedido(void){
         switch(opcao){
             case LAVAGEM:
                 imprimir_itens(lavagem, 8);
-                opcao2 = validar_entrada("\n1 - Escolher uma opção:\n2 - Voltar para o menu serviços.\n - ", 1, 2);
+                opcao2 = validar_entrada("\n1 - Escolher uma opï¿½ï¿½o:\n2 - Voltar para o menu serviï¿½os.\n - ", 1, 2);
                 switch(opcao2){
                     case 1:
                         processar_servico(lavagem, &novo_item, 1, 8);
@@ -415,7 +415,7 @@ Pedido* menu_pedido(void){
 }// verificado
 
 void imprimir_pedido(Pedido* pedido){
-    printf("Identificação: %d\n", pedido->id);
+    printf("Identificaï¿½ï¿½o: %d\n", pedido->id);
     imprimir_lista_itens(pedido->lista);
     printf("Status do pedido: %d\n", pedido->status);
     printf("Valor total do pedido: %.2lf\n", pedido->total_pedido);
@@ -440,7 +440,7 @@ void escrever_lista_itens_arquivo(Lista_Itens* lista, FILE* arquivo){
 
     fprintf(arquivo, "\tLista de itens:\n");
     if(lavagem == 1){
-        fprintf(arquivo, "\t\tServiços de lavagem:\n");
+        fprintf(arquivo, "\t\tServiï¿½os de lavagem:\n");
         auxiliar = lista;
         while(auxiliar != NULL){
             if(auxiliar->tipo == 1){
@@ -451,7 +451,7 @@ void escrever_lista_itens_arquivo(Lista_Itens* lista, FILE* arquivo){
     }
 
     if(passadoria == 1){
-        fprintf(arquivo, "\t\tServiços de passadoria:\n");
+        fprintf(arquivo, "\t\tServiï¿½os de passadoria:\n");
         auxiliar = lista;
         while(auxiliar != NULL){
             if(auxiliar->tipo == 2){
@@ -462,7 +462,7 @@ void escrever_lista_itens_arquivo(Lista_Itens* lista, FILE* arquivo){
     }
 
     if(coleta_entrega == 1){
-        fprintf(arquivo, "\t\tServiços de coleta e entrega:\n");
+        fprintf(arquivo, "\t\tServiï¿½os de coleta e entrega:\n");
         auxiliar = lista;
         while(auxiliar != NULL){
             if(auxiliar->tipo == 3){
@@ -488,7 +488,7 @@ void escrever_status_pedido(FILE* arquivo, Pedido* pedido){
             fprintf(arquivo, "\tStatus do Pedido: Pronto para Entrega\n");
             break;
         case CONCLUIDO:
-            fprintf(arquivo, "\tStatus do Pedido: Concluído\n");
+            fprintf(arquivo, "\tStatus do Pedido: Concluï¿½do\n");
             break;
     }
 }
@@ -508,7 +508,7 @@ void imprimir_status_pedido(Pedido* pedido){
             printf("Status do Pedido: Pronto para Entrega\n");
             break;
         case CONCLUIDO:
-            printf("Status do Pedido: Concluído\n");
+            printf("Status do Pedido: Concluï¿½do\n");
             break;
     }
 }
