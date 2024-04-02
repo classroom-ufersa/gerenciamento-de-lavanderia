@@ -1,6 +1,4 @@
-#include <stdbool.h>
 #include "pedidos.h"
-#include "clientes.h"
 
 Lista_Itens* inicializar_lista_itens(void){
     return NULL;

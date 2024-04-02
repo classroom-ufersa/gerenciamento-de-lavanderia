@@ -1,14 +1,12 @@
 #ifndef CLIENTES_H
 #define CLIENTES_H
 
-struct pedido;
-
-#include "pedidos.c"
+#include "pedidos.h"
 
 typedef struct lista_pedidos {
     Pedido* pedido;
     struct lista_pedidos* prox;
-} Lista_Pedidos;
+}Lista_Pedidos;
 
 typedef struct clientes {
     char nome[50];
@@ -31,11 +29,11 @@ Lista_Pedidos* inicializar_lista_pedidos(void);
 
 void adicionar_pedidos(Clientes* cliente, Pedido* pedido);
 
-Lista_Pedidos* remover_pedido(Clientes* cliente, struct pedido* pedido);
+Lista_Pedidos* remover_pedido(Clientes* cliente, Pedido* pedido);
 
 void limpabuffer(void);
 
-int validar_nome(const char nome[50]);
+int validar_nome(const char *nome[50]);
 
 void formatar_nome(char *nome);
 
@@ -45,7 +43,7 @@ void formatar_contato(char *numero);
 
 void imprimir_lista_pedidos(Clientes* cliente);
 
-struct pedido* buscar_pedido(Clientes* cliente, int id);
+Pedido* buscar_pedido(Clientes* cliente, int id);
 
 void modificar_status(Pedido* pedido);
 

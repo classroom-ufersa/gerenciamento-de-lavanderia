@@ -1,6 +1,4 @@
-#include "pedidos.c"
-#include "clientes.h"
-
+#include "pedidos.h"
 
 Clientes* inicializar_lista_clientes(void){
     return NULL;
@@ -9,7 +7,7 @@ Clientes* inicializar_lista_clientes(void){
 Clientes* inserir_cliente(Clientes* lista, char nome[50], char contato[15]){
     Clientes* novo_cliente = (Clientes*) malloc(sizeof(Clientes));
     if(novo_cliente == NULL){
-        printf("Erro ao alocar memï¿½ria para novo cliente.\n");
+        printf("Erro ao alocar memria para novo cliente.\n");
         return lista;
     }
 
@@ -45,18 +43,20 @@ Clientes* adicionar_clientes(Clientes* lista){
 
     do{
         printf("Digite o nome do cliente: ");
+        scanf(" %[^\n]", nome);
         fgets(nome, sizeof(nome), stdin);
-        nome[strcspn(nome, '\n')] = '\0';
+        nome[strcspn(nome, "\n")] = '\0';
     }while(validar_nome(nome) == 1);
     formatar_nome(nome);
 
     do{
-        printf("Digite o nï¿½mero de contato do cliente: ");
+        printf("Digite o nmero de contato do cliente: ");
+        scanf(" %[\n]",contato);
         fgets(contato, sizeof(contato), stdin);
-        contato[strcspn(contato, '\n')] = '\0';
+        contato[strcspn(contato, "\n")] = '\0';
 
-        if (validarEntradaContato(contato) == 0){
-            printf("Nï¿½mero de telefone invï¿½lido. O nï¿½mero deve conter 11 dï¿½gitos.\n");
+        if (validar_contato(contato) == 0){
+            printf("Nmero de telefone invlido. O nmero deve conter 11 dgitos.\n");
         }
         else{
             formatar_contato(contato);
@@ -72,8 +72,9 @@ Clientes* remover_cliente(Clientes* lista){
 
     do{
         printf("Digite o nome do cliente: ");
+        scanf(" %[^\n]", nome);
         fgets(nome, sizeof(nome), stdin);
-        nome[strcspn(nome, '\n')] = '\0';
+        nome[strcspn(nome, "\n")] = '\0';
     }while(validar_nome(nome) == 1);
     formatar_nome(nome);
 
@@ -86,7 +87,7 @@ Clientes* remover_cliente(Clientes* lista){
     }
 
     if(atual == NULL){
-        printf("Cliente nï¿½o encontrado na lista.\n");
+        printf("Cliente no encontrado na lista.\n");
         return lista;
     }
 
@@ -107,8 +108,9 @@ Clientes* buscar_cliente(Clientes* lista){
 
     do{
         printf("Digite o nome do cliente: ");
+        scanf(" %[^\n]", nome);
         fgets(nome, sizeof(nome), stdin);
-        nome[strcspn(nome, '\n')] = '\0';
+        nome[strcspn(nome, "\n")] = '\0';
     }while(validar_nome(nome) == 1);
     formatar_nome(nome);
     
@@ -117,7 +119,7 @@ Clientes* buscar_cliente(Clientes* lista){
     }
     
     if(auxiliar == NULL){
-        printf("Cliente nï¿½o encontrado no sistema.\n");
+        printf("Cliente no encontrado no sistema.\n");
         return NULL;
     }
 
@@ -131,7 +133,7 @@ Lista_Pedidos* inicializar_lista_pedidos(void){
 void adicionar_pedidos(Clientes* cliente, struct pedido* pedido){
     Lista_Pedidos* novo_pedido = (Lista_Pedidos*) malloc(sizeof(Lista_Pedidos));
     if(novo_pedido == NULL){
-        printf("Erro ao alocar memï¿½ria.\n");
+        printf("Erro ao alocar memria.\n");
         return;
     }
 
@@ -156,7 +158,7 @@ void adicionar_pedidos(Clientes* cliente, struct pedido* pedido){
     }
 }// verificado
 
-Lista_Pedidos* remover_pedido(Clientes* cliente, struct pedido* pedido){
+Lista_Pedidos* remover_pedido(Clientes* cliente, Pedido* pedido){
     Lista_Pedidos* atual = cliente->lista;
     Lista_Pedidos* anterior = NULL;
 
@@ -166,7 +168,7 @@ Lista_Pedidos* remover_pedido(Clientes* cliente, struct pedido* pedido){
     }
 
     if(atual == NULL){
-        printf("Pedido nï¿½o encontrado na lista.\n");
+        printf("Pedido no encontrado na lista.\n");
         return cliente->lista;
     }
 
@@ -191,7 +193,7 @@ int validar_nome(const char nome[50]){
     for (int i = 0; i < tamanho_da_string; i++) {
          if (!isalpha(nome[i]) && nome[i] != ' '){
             limpabuffer();
-            printf("Nome invï¿½lido, por favor, digite novamente.\n");
+            printf("Nome invlido, por favor, digite novamente.\n");
             return 1;
         }
     }
@@ -292,7 +294,7 @@ void modificar_status(struct pedido* pedido){
     status = validar_entrada("Atualizar pedido para qual status?\n"
     "1 - EM PROCESSAMENTO\n"
     "2 - PRONTO PARA ENTREGA\n"
-    "3 - CONCLUï¿½DO\n", 1, 3);
+    "3 - CONCLUDO\n", 1, 3);
 
     switch(status){
         case 1:

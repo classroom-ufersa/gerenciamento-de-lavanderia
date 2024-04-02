@@ -1,12 +1,14 @@
+#include "clientes.h"
+
 #ifndef PEDIDOS_H
 #define PEDIDOS_H
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
 #include <ctype.h>
-#include "clientes.h"
 
 // Definição das estruturas
 
