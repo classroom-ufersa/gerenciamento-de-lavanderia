@@ -7,7 +7,7 @@ Clientes* inicializar_lista_clientes(void){
 Clientes* inserir_cliente(Clientes* lista, char nome[50], char contato[15]){
     Clientes* novo_cliente = (Clientes*) malloc(sizeof(Clientes));
     if(novo_cliente == NULL){
-        printf("Erro ao alocar memria para novo cliente.\n");
+        printf("Erro ao alocar memï¿½ria para novo cliente.\n");
         return lista;
     }
 
@@ -50,18 +50,19 @@ Clientes* adicionar_clientes(Clientes* lista){
     formatar_nome(nome);
 
     do{
-        printf("Digite o nmero de contato do cliente: ");
+        printf("Digite o nï¿½mero de contato do cliente: ");
         scanf(" %[\n]",contato);
         fgets(contato, sizeof(contato), stdin);
         contato[strcspn(contato, "\n")] = '\0';
 
         if (validar_contato(contato) == 0){
-            printf("Nmero de telefone invlido. O nmero deve conter 11 dgitos.\n");
+            printf("Nï¿½mero de telefone invï¿½lido. O nï¿½mero deve conter 11 dï¿½gitos.\n");
         }
         else{
             formatar_contato(contato);
+            break;
         }
-    }while(validar_contato(contato) == 0);
+    }while(validar_contato(contato) == 1);
 
     novo = inserir_cliente(lista, nome, contato);
     return novo;
@@ -87,7 +88,7 @@ Clientes* remover_cliente(Clientes* lista){
     }
 
     if(atual == NULL){
-        printf("Cliente no encontrado na lista.\n");
+        printf("Cliente nï¿½o encontrado na lista.\n");
         return lista;
     }
 
@@ -119,7 +120,7 @@ Clientes* buscar_cliente(Clientes* lista){
     }
     
     if(auxiliar == NULL){
-        printf("Cliente no encontrado no sistema.\n");
+        printf("Cliente nï¿½o encontrado no sistema.\n");
         return NULL;
     }
 
@@ -133,7 +134,7 @@ Lista_Pedidos* inicializar_lista_pedidos(void){
 void adicionar_pedidos(Clientes* cliente, struct pedido* pedido){
     Lista_Pedidos* novo_pedido = (Lista_Pedidos*) malloc(sizeof(Lista_Pedidos));
     if(novo_pedido == NULL){
-        printf("Erro ao alocar memria.\n");
+        printf("Erro ao alocar memï¿½ria.\n");
         return;
     }
 
@@ -168,7 +169,7 @@ Lista_Pedidos* remover_pedido(Clientes* cliente, Pedido* pedido){
     }
 
     if(atual == NULL){
-        printf("Pedido no encontrado na lista.\n");
+        printf("Pedido nï¿½o encontrado na lista.\n");
         return cliente->lista;
     }
 
@@ -188,12 +189,12 @@ void limpabuffer(){
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-int validar_nome(const char nome[50]){
+int validar_nome(char nome[50]){
     int tamanho_da_string = strlen(nome);
     for (int i = 0; i < tamanho_da_string; i++) {
          if (!isalpha(nome[i]) && nome[i] != ' '){
             limpabuffer();
-            printf("Nome invlido, por favor, digite novamente.\n");
+            printf("Nome invï¿½lido, por favor, digite novamente.\n");
             return 1;
         }
     }
@@ -218,7 +219,7 @@ void formatar_nome(char *nome){
     }
 }// verificado
 
-int validar_contato(const char *entrada){
+int validar_contato(char entrada[15]){
     int tamanho = strlen(entrada);
     int contadorDigitos = 0;
 
@@ -294,7 +295,7 @@ void modificar_status(struct pedido* pedido){
     status = validar_entrada("Atualizar pedido para qual status?\n"
     "1 - EM PROCESSAMENTO\n"
     "2 - PRONTO PARA ENTREGA\n"
-    "3 - CONCLUDO\n", 1, 3);
+    "3 - CONCLUï¿½DO\n", 1, 3);
 
     switch(status){
         case 1:

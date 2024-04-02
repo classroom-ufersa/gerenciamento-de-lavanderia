@@ -33,11 +33,11 @@ Lista_Pedidos* remover_pedido(Clientes* cliente, Pedido* pedido);
 
 void limpabuffer(void);
 
-int validar_nome(const char *nome[50]);
+int validar_nome(char nome[50]);
 
 void formatar_nome(char *nome);
 
-int validar_contato(const char *numero);
+int validar_contato(char entrada[15]);
 
 void formatar_contato(char *numero);
 
