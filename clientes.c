@@ -44,15 +44,13 @@ Clientes* adicionar_clientes(Clientes* lista){
     do{
         printf("Digite o nome do cliente: ");
         scanf(" %[^\n]", nome);
-        fgets(nome, sizeof(nome), stdin);
         nome[strcspn(nome, "\n")] = '\0';
     }while(validar_nome(nome) == 1);
     formatar_nome(nome);
 
     do{
-        printf("Digite o n�mero de contato do cliente: ");
-        scanf(" %[\n]",contato);
-        fgets(contato, sizeof(contato), stdin);
+        printf("\n Digite o n�mero de contato do cliente: ");
+        scanf(" %[^\n]", contato);
         contato[strcspn(contato, "\n")] = '\0';
 
         if (validar_contato(contato) == 0){
@@ -74,7 +72,6 @@ Clientes* remover_cliente(Clientes* lista){
     do{
         printf("Digite o nome do cliente: ");
         scanf(" %[^\n]", nome);
-        fgets(nome, sizeof(nome), stdin);
         nome[strcspn(nome, "\n")] = '\0';
     }while(validar_nome(nome) == 1);
     formatar_nome(nome);
@@ -110,7 +107,6 @@ Clientes* buscar_cliente(Clientes* lista){
     do{
         printf("Digite o nome do cliente: ");
         scanf(" %[^\n]", nome);
-        fgets(nome, sizeof(nome), stdin);
         nome[strcspn(nome, "\n")] = '\0';
     }while(validar_nome(nome) == 1);
     formatar_nome(nome);

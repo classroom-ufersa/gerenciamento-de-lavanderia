@@ -30,7 +30,7 @@ int main(void){
             case 1:
                 cliente_lista = adicionar_clientes(cliente_lista);
                 escrever_arquivo(cliente_lista, arquivo_clientes);
-                //adicionar verificação dentro da função pra não haver duplicação de clientes
+                //adicionar verificaÃ§Ã£o dentro da funÃ§Ã£o pra nÃ£o haver duplicaÃ§Ã£o de clientes
                 break;
             case 2:
                 cliente_lista = remover_cliente(cliente_lista);
@@ -39,7 +39,7 @@ int main(void){
             case 3:
                 cliente_aux = buscar_cliente(cliente_lista);
                 if(cliente_aux != NULL){
-                    pedido_aux = menu_pedido(); //fazer essa função retornar um pedido
+                    pedido_aux = menu_pedido(); //fazer essa funÃ§Ã£o retornar um pedido
                     adicionar_pedidos(cliente_aux, pedido_aux);
                     escrever_arquivo(cliente_lista, arquivo_clientes);
                 }
@@ -72,7 +72,8 @@ int main(void){
                 break;
             case 8:
                 printf("Encerrando...");
-                break;        }
+                break;        
+        }
     }while(opcao_menu != 8);
     fclose(arquivo_clientes);
     return 0;
