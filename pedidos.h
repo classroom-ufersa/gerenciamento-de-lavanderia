@@ -12,6 +12,14 @@
 
 // Definição das estruturas
 
+typedef enum menu_pedido{
+    LAVAGEM = 1,         
+    FINALIZAR_PEDIDO = 2,  
+    SAIR = 3,               
+    PASSADORIA = 4,
+    COLETA_ENTREGA = 5
+}Menu_Pedido;
+
 typedef enum status_pedido {
     PENDENTE_COLETA,
     PENDENTE_PROCESSAMENTO,
@@ -21,13 +29,12 @@ typedef enum status_pedido {
 } Status_Pedido;
 
 typedef struct itens{
-    int id;
     char nome[50];
     double valor;
 }Itens;
 
 typedef struct lista_itens{
-    int tipo;
+    Menu_Pedido tipo;
     Itens* item;
     int quantidade;
     struct lista_itens* proxItem;
@@ -42,29 +49,23 @@ struct pedido{
 
 typedef struct pedido Pedido;
 
-typedef enum menu_pedido{
-    LAVAGEM = 1,           
-    PASSADORIA = 2,         
-    COLETA_ENTREGA = 3,      
-    FINALIZAR_PEDIDO = 4,  
-    SAIR = 5               
-}Menu_Pedido;
+
 
 // Declaração das funções relacionadas aos itens (Itens, Lista_Itens)
 Lista_Itens* inicializar_lista_itens(void);
-Lista_Itens* inserir_item(Lista_Itens* lista, Itens* item, int quantidade, int tipo);
-Lista_Itens* remover_item(Lista_Itens* lista, Itens* item, int tipo);
-Lista_Itens* verificar_existencia(Lista_Itens* lista, Itens* item, int tipo);
-void alterar_quantidade(Lista_Itens* lista, Itens* item, int quantidade, int tipo);
-void modificar_item(Lista_Itens* lista, Itens* item, Itens* itemAux, int tipo);
+Lista_Itens* inserir_item(Lista_Itens* lista, Itens* item, int quantidade, Menu_Pedido tipo);
+Lista_Itens* remover_item(Lista_Itens* lista, Itens* item);
+Lista_Itens* verificar_existencia(Lista_Itens* lista, Itens* item, Menu_Pedido tipo);
+void alterar_quantidade(Lista_Itens* lista, Itens* item, int quantidade);
+void modificar_item(Lista_Itens* lista, Itens* item, Itens* itemAux);
 void imprimir_lista_itens(Lista_Itens* lista);
 Itens* arrays_itens(FILE* arquivo);
 void realocar_memoria(Itens** novo, int* tamanho);
 void imprimir_itens(Itens* itens_array, int tamanho);
 
 // Declaração das funções relacionadas aos pedidos (Pedido)
-void imprimir_pedido(Pedido* pedido);
 Pedido* preencher_pedido(Pedido** novo_pedido, Lista_Itens** lista);
+void imprimir_pedido(Pedido* pedido);
 Pedido* menu_pedido(void);
 void escrever_lista_itens_arquivo(Lista_Itens* lista, FILE* arquivo);
 void escrever_status_pedido(FILE* arquivo, Pedido* pedido);
@@ -73,6 +74,7 @@ void imprimir_status_pedido(Pedido* pedido);
 // Funções auxiliares ou de utilidade geral
 int validar_entrada(const char* print, int min, int max);
 Menu_Pedido opcoes_menu(void);
-void processar_servico(Itens* servico, Lista_Itens** novo_item, int tipo, int quantidade_itens);
+void processar_servico(Itens* servico, Lista_Itens** novo_item, Menu_Pedido tipo, int quantidade_itens);
+void modificar_status(Pedido* pedido);
 
 #endif
