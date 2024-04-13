@@ -141,6 +141,16 @@ int validar_contato(char entrada[15]);
  *  */
 void formatar_contato(char *numero);
 
+/*
+ * @brief Valida o CPF do cliente
+ *
+ * @param char entrada[15] CPF do cliente
+ *
+ * @return int Retorna 1 se o CPF for v�lido e 0 caso contr�rio
+ *  */
+
+int validar_cpf(char entrada[15]);
+
 
 /*
  * @brief Imprime a lista de clientes
@@ -188,8 +198,23 @@ void escrever_arquivo(Clientes* lista);
  * */
 void imprimir_clientes_pedidos(Clientes* lista);
 
+/*
+ * @brief Libera a mem�ria alocada para a lista de clientes
+ *
+ * @param Clientes *inicio In�cio da lista encadeada de clientes
+ *
+ * @return void
+ *  */
 void liberar_memoria_clientes(Clientes* inicio) ;
 
+/*
+ * @brief ler arquivo de teste para preencher a lista de clientes
+ *
+ * @param FILE* arquivo Arquivo com os dados dos clientes
+ * @param Clientes** lista Lista encadeada de clientes
+ *
+ * @return void
+ *  */
 void ler_arquivo_teste(FILE* arquivo, Clientes** lista);
 
 #endif

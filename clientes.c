@@ -39,6 +39,7 @@ Clientes* inserir_cliente(Clientes* lista, char nome[50], char contato[15]){
 Clientes* adicionar_clientes(Clientes* lista){
     char nome[50];
     char contato[20];
+    char cpf[15];
     Clientes* novo;
 
     do{
@@ -62,6 +63,19 @@ Clientes* adicionar_clientes(Clientes* lista){
         }
     }while(validar_contato(contato) == 1);
 
+    do{
+        printf("Digite o CPF do cliente: ");
+        scanf(" %[^\n]", cpf);
+        cpf[strcspn(cpf, "\n")] = '\0';
+
+        if (validar_cpf(cpf) == 0){
+            printf("CPF inválido. O CPF deve conter 11 dígitos.\n");
+        }
+        else{
+            break;
+        }
+    
+    }while(validar_cpf(cpf) == 1);
 
     novo = inserir_cliente(lista, nome, contato);
     return novo;
@@ -265,6 +279,25 @@ void formatar_contato(char *numero){
     novoNumero[pos] = '\0';
     strcpy(numero, novoNumero);
 }// verificado
+
+
+int validar_cpf(char entrada[15]) {
+    int tamanho = strlen(entrada);
+    int contadorDigitos = 0;
+
+    for (int i = 0; i < tamanho; i++) {
+        if (!isdigit(entrada[i])) {
+            return 0;
+        }
+        contadorDigitos++;
+    }
+
+    if (contadorDigitos == 11) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
 
 void imprimir_lista_pedidos(Clientes* cliente){
     Lista_Pedidos* auxiliar;

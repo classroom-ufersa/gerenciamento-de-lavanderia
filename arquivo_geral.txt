@@ -1,0 +1,12 @@
+Cliente:
+Nome: Thyago
+Contato: (84) 99833 1651
+Lista de pedidos:
+	Id: 42
+	Lista de itens:
+		1x Serviço de passadoria                             	50.000000
+		2x 2    Roupas de cama(lencois, fronhas)            	30.000000
+	Status do Pedido: Pendente de Coleta
+	Total do pedido: 80.00
+
+
