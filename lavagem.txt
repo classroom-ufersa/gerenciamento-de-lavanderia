@@ -1,8 +1,8 @@
-0    Roupas de tecido simples                          7
-1    Roupas jeans                                      10
-2    Roupas de cama(lencois, fronhas)                  15
-3    Toalhas                                           12
-4    Pecas intimas                                     4
-5    Edredons e cobertores                             30
-6    Pecas delicadas                                   18
-7    Ternos e vestidos de festa                        35
+Roupas de tecido simples                          7
+Roupas jeans                                      10
+Roupas de cama(lencois, fronhas)                  15
+Toalhas                                           12
+Pecas intimas                                     4
+Edredons e cobertores                             30
+Pecas delicadas                                   18
+Ternos ou vestidos de festa                       35
