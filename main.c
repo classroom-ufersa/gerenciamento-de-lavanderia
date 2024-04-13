@@ -4,16 +4,21 @@
 int main(void){
     int opcao_menu;
     int id_aux;
+    
+    FILE* arquivo = fopen("arquivo_geral.txt", "r");
+    if(arquivo == NULL){
+        printf("Erro ao abrir arquivo para leitura.\n");
+        exit(EXIT_FAILURE);
+    }
 
     Clientes* cliente_lista = inicializar_lista_clientes();
 
     Clientes* cliente_aux = NULL;
     Pedido* pedido_aux = NULL;
 
-    FILE* arquivo_clientes;
-    if((arquivo_clientes = fopen("arquivo_geral.txt", "a+")) == NULL){
-        printf("Erro ao abrir arquivo.\n");
-    }
+    ler_arquivo_teste(arquivo, &cliente_lista);
+    printf("arquivo lido");
+    fclose(arquivo);
 
     do{
         opcao_menu = validar_entrada("\nMENU PRINCIPAL\n"
@@ -24,44 +29,44 @@ int main(void){
         "5 - Editar status de pedido\n"
         "6 - Buscar cliente por nome\n"
         "7 - Listar clientes e seus pedidos\n"
-        "8 - Sair\n", 1, 8);
+        "8 - Sair\nEscolha uma opção: ", 1, 8);
 
         switch(opcao_menu){
             case 1:
                 cliente_lista = adicionar_clientes(cliente_lista);
-                escrever_arquivo(cliente_lista, arquivo_clientes);
-                //adicionar verificação dentro da função pra não haver duplicação de clientes
                 break;
             case 2:
                 cliente_lista = remover_cliente(cliente_lista);
-                escrever_arquivo(cliente_lista, arquivo_clientes);
                 break;
             case 3:
                 cliente_aux = buscar_cliente(cliente_lista);
                 if(cliente_aux != NULL){
-                    pedido_aux = menu_pedido(); //fazer essa função retornar um pedido
-                    adicionar_pedidos(cliente_aux, pedido_aux);
-                    escrever_arquivo(cliente_lista, arquivo_clientes);
+                    pedido_aux = menu_pedido();
+                    if(pedido_aux != NULL){
+                        printf("teste");
+                        adicionar_pedidos(cliente_aux, pedido_aux);
+                    }
+                    else{
+                        printf("\nPedido cancelado.\n");
+                    }
                 }
                 break;
             case 4:
                 cliente_aux = buscar_cliente(cliente_lista);
                 if(cliente_aux != NULL){
                     imprimir_lista_pedidos(cliente_aux);
-                    id_aux = validar_entrada("Digite o id do pedido a ser removido:\n - ", 0, 0);
+                    id_aux = validar_entrada("Digite o id do pedido a ser removido: ", 0, 0);
                     pedido_aux = buscar_pedido(cliente_aux, id_aux);
                     remover_pedido(cliente_aux, pedido_aux);
-                    escrever_arquivo(cliente_lista, arquivo_clientes);
                 }
                 break;
             case 5:
                 cliente_aux = buscar_cliente(cliente_lista);
                 if(cliente_aux != NULL){
                     imprimir_lista_pedidos(cliente_aux);
-                    id_aux = validar_entrada("Digite o id do pedido para mudar o status:\n - ", 0, 0);
+                    id_aux = validar_entrada("Digite o id do pedido para mudar o status: ", 0, 0);
                     pedido_aux = buscar_pedido(cliente_aux, id_aux);
                     modificar_status(pedido_aux);
-                    escrever_arquivo(cliente_lista, arquivo_clientes);
                 }
                 break;
             case 6:
@@ -74,7 +79,8 @@ int main(void){
                 printf("Encerrando...");
                 break;        
         }
+        escrever_arquivo(cliente_lista);
     }while(opcao_menu != 8);
-    fclose(arquivo_clientes);
+    liberar_memoria_clientes(cliente_lista);
     return 0;
 }
