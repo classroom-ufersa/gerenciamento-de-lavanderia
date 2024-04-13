@@ -195,31 +195,51 @@ void imprimir_pedido(Pedido* pedido){
 
 int validar_entrada(const char* print, int min, int max){
     int opcao;
-    int validar;
     
     if(max == 0 && min == 0){
         do{
             printf("%s", print);
-            validar = scanf("%d", &opcao);
-            if (validar != 1) {
-                printf("Opção inválida, certifique-se de que a opção digitada seja uma opção da lista.\n");
-                while (getchar() != '\n'); 
+            char entrada[50];
+            fgets(entrada, sizeof(entrada), stdin);
+            entrada[strcspn(entrada, "\n")] = '\0';
+
+            int tamanho = strlen(entrada);
+
+            if(tamanho > 0 && isdigit(entrada[0])){
+                opcao = atoi(entrada);
+                break;
             }
-        }while(validar != 1);
+            else{
+                printf("Quantidade inválida, certifique-se de digitar um número inteiro.\n");
+            }
+        }while(1);
     }
     else{
         do{
             printf("%s", print);
-            validar = scanf("%d", &opcao);
-            if (validar != 1 || opcao < min || opcao > max) {
+            char entrada[50];
+            fgets(entrada, sizeof(entrada), stdin);
+            entrada[strcspn(entrada, "\n")] = '\0';
+
+            int tamanho = strlen(entrada);
+
+            if(tamanho == 1 && isdigit(entrada[0])){
+                opcao = atoi(entrada);
+                if (opcao >= min && opcao <= max) {
+                    break;
+                } 
+                else{
+                    printf("Opção inválida, certifique-se de que a opcao digitada seja uma opção da lista.\n");
+                }
+            } 
+            else{
                 printf("Opção inválida, certifique-se de que a opcao digitada seja uma opção da lista.\n");
-                while(getchar() != '\n');
             }
-        }while(validar != 1 || opcao < min || opcao > max);
+        }while(1);
     }
-    
+    while(getchar() != '\n');
     return opcao;
-}// verificado
+}
 
 Menu_Pedido opcoes_menu(void){
     int opcao;
