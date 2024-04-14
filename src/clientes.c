@@ -45,33 +45,32 @@ Clientes* adicionar_clientes(Clientes* lista){
     }while(validar_nome(nome) == 1);
     formatar_nome(nome);
 
-    do{
+    do {
         printf("Digite o número de contato do cliente: ");
         scanf(" %[^\n]", contato);
         contato[strcspn(contato, "\n")] = '\0';
 
-        if (validar_contato(contato) == 0){
-            printf("Número de telefone inválido. O número deve conter 11 dígitos.\n");
-        }
-        else{
+        if (validar_contato(contato) == 0) {
+            printf("Número de telefone inválido. O número deve conter exatamente 11 dígitos.\n");
+        } 
+        else {
             formatar_contato(contato);
             break;
         }
-    }while(validar_contato(contato) == 1);
+    } while (1);
 
-    do{
+    do {
         printf("Digite o CPF do cliente: ");
         scanf(" %[^\n]", cpf);
         cpf[strcspn(cpf, "\n")] = '\0';
 
-        if (validar_cpf(cpf) == 0){
-            printf("CPF inválido. O CPF deve conter 11 dígitos.\n");
-        }
-        else{
+        if (validar_cpf(cpf) == 0) {
+            printf("CPF inválido. O CPF deve conter 11 dígitos numéricos.\n");
+        } else {
+            printf("Cadastrado com sucesso!\n");
             break;
         }
-    
-    }while(validar_cpf(cpf) == 1);
+    } while (1);
 
     novo = inserir_cliente(lista, nome, contato);
     return novo;
@@ -222,17 +221,15 @@ void formatar_nome(char *nome){
     }
 }// verificado
 
-int validar_contato(char entrada[15]){
+int validar_contato(char entrada[15]) {
     int tamanho = strlen(entrada);
     int contadorDigitos = 0;
 
     for (int i = 0; i < tamanho; i++) {
-        if (!isdigit(entrada[i]) && entrada[i] != ' ' && entrada[i] != '-') {
+        if (!isdigit(entrada[i])) {
             return 0;
         }
-        if (isdigit(entrada[i])) {
-            contadorDigitos++;
-        }
+        contadorDigitos++;
     }
 
     if (contadorDigitos == 11) {
@@ -240,7 +237,7 @@ int validar_contato(char entrada[15]){
     } else {
         return 0;
     }
-}// verificado
+}
 
 void formatar_contato(char *numero){
     int tamanho = strlen(numero);
@@ -275,22 +272,19 @@ void formatar_contato(char *numero){
 
 int validar_cpf(char entrada[15]) {
     int tamanho = strlen(entrada);
-    int contadorDigitos = 0;
+
+    if (tamanho != 11) {
+        return 0; 
+    }
 
     for (int i = 0; i < tamanho; i++) {
         if (!isdigit(entrada[i])) {
-            return 0;
+            return 0; 
         }
-        contadorDigitos++;
     }
 
-    if (contadorDigitos == 11) {
-        return 1;
-    } else {
-        return 0;
-    }
+    return 1; 
 }
-
 void imprimir_lista_pedidos(Clientes* cliente){
     Lista_Pedidos* auxiliar;
 

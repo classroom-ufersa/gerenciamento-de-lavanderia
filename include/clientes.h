@@ -151,7 +151,6 @@ void formatar_contato(char *numero);
 
 int validar_cpf(char entrada[15]);
 
-
 /*
  * @brief Imprime a lista de clientes
  *
