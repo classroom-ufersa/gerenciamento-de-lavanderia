@@ -4,33 +4,31 @@ Clientes* inicializar_lista_clientes(void){
     return NULL;
 }// verificado
 
-Clientes* inserir_cliente(Clientes* lista, char nome[50], char contato[15]){
+Clientes* inserir_cliente(Clientes* lista, char nome[50], char contato[15], char cpf[15]){
     Clientes* novo_cliente = alocar_memoria(sizeof(Clientes));
 
     strcpy(novo_cliente->nome, nome);
     strcpy(novo_cliente->contato, contato);
+    strcpy(novo_cliente->Cpf, cpf);
 
     Lista_Pedidos* lista_pedidos = inicializar_lista_pedidos();
     novo_cliente->lista = lista_pedidos;
 
-    if(lista == NULL || strcmp(nome, lista->nome) < 0){
+    if(lista == NULL || (strcmp(nome, lista->nome) < 0) || (strcmp(nome, lista->nome) == 0 && strcmp(cpf, lista->Cpf) < 0)){
         novo_cliente->prox = lista;
         return novo_cliente;
     }
 
-    Clientes* atual = lista;
-    Clientes* anterior = NULL;
-
-    while(atual != NULL && strcmp(nome, atual->nome) > 0){
-        anterior = atual;
-        atual = atual->prox;
+    Clientes* anterior = lista;
+    while(anterior->prox != NULL && strcmp(nome, anterior->prox->nome) == 0){
+        anterior = anterior->prox;
     }
 
+    novo_cliente->prox = anterior->prox;
     anterior->prox = novo_cliente;
-    novo_cliente->prox = atual;
 
     return lista;
-}// verificado
+}
 
 Clientes* adicionar_clientes(Clientes* lista){
     char nome[50];
@@ -45,93 +43,156 @@ Clientes* adicionar_clientes(Clientes* lista){
     }while(validar_nome(nome) == 1);
     formatar_nome(nome);
 
-    do {
+    do{
         printf("Digite o número de contato do cliente: ");
         scanf(" %[^\n]", contato);
         contato[strcspn(contato, "\n")] = '\0';
 
-        if (validar_contato(contato) == 0) {
+        if(validar_contato(contato) == 0){
             printf("Número de telefone inválido. O número deve conter exatamente 11 dígitos.\n");
         } 
-        else {
+        else{
             formatar_contato(contato);
+            contato[14] = '\0';
             break;
         }
-    } while (1);
+    }while(1);
 
-    do {
+    do{
         printf("Digite o CPF do cliente: ");
         scanf(" %[^\n]", cpf);
         cpf[strcspn(cpf, "\n")] = '\0';
 
-        if (validar_cpf(cpf) == 0) {
+        if(validar_cpf(cpf) == 0){
             printf("CPF inválido. O CPF deve conter 11 dígitos numéricos.\n");
-        } else {
-            printf("Cadastrado com sucesso!\n");
-            break;
+        } 
+        else{
+            formatar_cpf(cpf); 
+
+            if (buscar_cliente_por_cpf(lista, cpf) != NULL) {
+                printf("Já existe um cliente com o mesmo CPF na lista.\n");
+                return lista;
+            }
+            else{
+                printf("Cadastrado com sucesso!\n");
+                break;
+            }
         }
-    } while (1);
+    }while(1);
 
-    novo = inserir_cliente(lista, nome, contato);
+    novo = inserir_cliente(lista, nome, contato, cpf);
     return novo;
-}// verificado
+}
 
-Clientes* remover_cliente(Clientes* lista){
-    char nome[50];
-
-    do{
-        printf("Digite o nome do cliente: ");
-        scanf(" %[^\n]", nome);
-        nome[strcspn(nome, "\n")] = '\0';
-    }while(validar_nome(nome) == 1);
-    formatar_nome(nome);
-
-    Clientes* atual = lista;
-    Clientes* anterior = NULL;
-
-    while(atual != NULL && strcmp(atual->nome, nome) != 0){
-        anterior = atual;
-        atual = atual->prox;
+Clientes* remover_cliente(Clientes* lista, Clientes* cliente) {
+    if (lista == NULL) {
+        printf("Lista de clientes vazia.\n");
+        return NULL;
     }
 
-    if(atual == NULL){
+    if (cliente == NULL) {
         printf("Cliente não encontrado na lista.\n");
         return lista;
     }
 
-    if(anterior == NULL){
+    Clientes* atual = lista;
+    Clientes* anterior = NULL;
+
+    while (atual != NULL && strcmp(atual->Cpf, cliente->Cpf) != 0) {
+        anterior = atual;
+        atual = atual->prox;
+    }
+
+    if (atual == NULL) {
+        printf("Cliente não encontrado na lista.\n");
+        return lista;
+    }
+
+    if (anterior == NULL) {
         lista = atual->prox;
     } else {
         anterior->prox = atual->prox;
     }
-    
+
     free(atual);
-    printf("Cliente %s removido da lista e arquivo atualizado.\n", nome);
+    printf("Cliente removido da lista e arquivo atualizado.\n");
     return lista;
+}
+
+Lista_Pedidos* inicializar_lista_pedidos(void){
+    return NULL;
 }// verificado
+
+
 
 Clientes* buscar_cliente(Clientes* lista){
     char nome[50];
     Clientes* auxiliar = lista;
+    Clientes* resultados = NULL;
 
     do{
         printf("\nDigite o nome do cliente: ");
         scanf(" %[^\n]", nome);
         nome[strcspn(nome, "\n")] = '\0';
-    }while(validar_nome(nome) == 1);
+    }while (validar_nome(nome) == 1);
     formatar_nome(nome);
-    
-    while(auxiliar != NULL && strcmp(auxiliar->nome, nome) != 0){
+
+    while(auxiliar != NULL){
+        if(strcmp(auxiliar->nome, nome) == 0){
+            resultados = inserir_cliente(resultados, auxiliar->nome, auxiliar->contato, auxiliar->Cpf);
+        }
         auxiliar = auxiliar->prox;
     }
-    
-    if(auxiliar == NULL){
+
+    if(resultados == NULL){
         printf("Cliente não encontrado no sistema.\n");
         return NULL;
     }
 
-    return auxiliar;
-}// verificado
+    if(resultados->prox != NULL){
+        char cpf[15];
+        int encontrado = 0;
+        Clientes* cliente = resultados;
+
+        do{
+            printf("Foram encontrados mais de um cliente com o mesmo nome.\n");
+            printf("Digite o CPF do cliente desejado para confirmar a operacao: ");
+            scanf(" %[^\n]", cpf);
+            formatar_cpf(cpf);
+            cpf[strcspn(cpf, "\n")] = '\0';
+            
+
+            while(cliente != NULL){
+                if (strcmp(cliente->Cpf, cpf) == 0){
+                    encontrado = 1;
+                    break;
+                }
+                cliente = cliente->prox;
+            }
+
+            if (!encontrado) {
+                printf("CPF inserido nao corresponde a nenhum cliente encontrado. Tente novamente.\n");
+            }
+        }while(!encontrado);
+
+        return cliente;
+    }
+
+    return resultados;
+}
+
+Clientes* buscar_cliente_por_cpf(Clientes* lista, const char* cpf) {
+    Clientes* atual = lista;
+
+    while (atual != NULL) {
+        if (strcmp(atual->Cpf, cpf) == 0) {
+            return atual;
+        }
+        atual = atual->prox;
+    }
+
+    return NULL;
+}
 
 Lista_Pedidos* inicializar_lista_pedidos(void){
     return NULL;

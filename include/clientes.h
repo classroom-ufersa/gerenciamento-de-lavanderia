@@ -216,5 +216,7 @@ void liberar_memoria_clientes(Clientes* inicio) ;
  *  */
 void ler_arquivo_teste(FILE* arquivo, Clientes** lista);
 
+Clientes* buscar_cliente_por_cpf(Clientes* lista, const char* cpf);
+
 #endif
 
