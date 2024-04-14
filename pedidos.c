@@ -218,7 +218,7 @@ int validar_entrada(const char* print, int min, int max){
         do{
             printf("%s", print);
             char entrada[50];
-            fgets(entrada, sizeof(entrada), stdin);
+            scanf(" %[^\n]", entrada);
             entrada[strcspn(entrada, "\n")] = '\0';
 
             int tamanho = strlen(entrada);
@@ -237,7 +237,6 @@ int validar_entrada(const char* print, int min, int max){
             }
         }while(1);
     }
-    while(getchar() != '\n');
     return opcao;
 }
 
