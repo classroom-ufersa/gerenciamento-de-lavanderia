@@ -12,7 +12,7 @@ typedef struct lista_pedidos {
 //typedef struct clientes Clientes;
 typedef struct clientes {
     char nome[50];
-    char contato[15];
+    char contato[16];
     char Cpf[15];
     Lista_Pedidos* lista;
     struct clientes* prox;

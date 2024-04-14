@@ -2,11 +2,11 @@
 
 Clientes* inicializar_lista_clientes(void){
     return NULL;
-}// verificado
+}
 
 Lista_Pedidos* inicializar_lista_pedidos(void){
     return NULL;
-}// verificado
+}
 
 Clientes* inserir_cliente(Clientes* lista, char nome[50], char contato[15], char cpf[15]){
     Clientes* novo_cliente = alocar_memoria(sizeof(Clientes));
@@ -36,7 +36,7 @@ Clientes* inserir_cliente(Clientes* lista, char nome[50], char contato[15], char
 
 Clientes* adicionar_clientes(Clientes* lista){
     char nome[50];
-    char contato[20];
+    char contato[16];
     char cpf[15];
     Clientes* novo;
 
@@ -57,7 +57,7 @@ Clientes* adicionar_clientes(Clientes* lista){
         } 
         else{
             formatar_contato(contato);
-            contato[14] = '\0';
+            contato[15] = '\0';
             break;
         }
     }while(1);
