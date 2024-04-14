@@ -36,7 +36,7 @@ Clientes* inicializar_lista_clientes(void);
  *
  * @return Clientes* Retorna a lista de clientes atualizada
  * */
-Clientes* inserir_cliente(Clientes* lista, char nome[50], char contato[15]);
+Clientes* inserir_cliente(Clientes* lista, char nome[50], char contato[15], char cpf[15]);
 
 /*
  * @brief Adiciona um cliente na lista de clientes
@@ -54,7 +54,7 @@ Clientes* adicionar_clientes(Clientes* lista);
  *
  * @return Clientes* Retorna a lista de clientes atualizada
  *  */
-Clientes* remover_cliente(Clientes* lista);
+Clientes* remover_cliente(Clientes* lista, Clientes* cliente);
 
 /*
  * @brief Busca um cliente na lista de clientes
@@ -83,7 +83,7 @@ Lista_Pedidos* inicializar_lista_pedidos(void);
  *
  * @return void
  *  */
-void adicionar_pedidos(Clientes* cliente, Pedido* pedido);
+void adicionar_pedidos(Clientes* lista_principal, Clientes* cliente, Pedido* pedido);
 
 /*
  * @brief Remove um pedido da lista de pedidos
@@ -93,7 +93,7 @@ void adicionar_pedidos(Clientes* cliente, Pedido* pedido);
  *
  * @return Lista_Pedidos* Retorna a lista de pedidos atualizada
  *  */
-Lista_Pedidos* remover_pedido(Clientes* cliente, Pedido* pedido);
+Lista_Pedidos* remover_pedido(Clientes* lista_principal, Clientes* cliente, Pedido* pedido);
 
 /*
  * @brief Limpa o buffer do teclado
@@ -150,6 +150,8 @@ void formatar_contato(char *numero);
  *  */
 
 int validar_cpf(char entrada[15]);
+
+void formatar_cpf(char *cpf);
 
 /*
  * @brief Imprime a lista de clientes

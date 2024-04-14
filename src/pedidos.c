@@ -26,7 +26,7 @@ Lista_Itens* inserir_item(Lista_Itens* lista, Itens* item, int quantidade, Menu_
     novo_item->proxItem = lista;
 
     return novo_item;
-}// verificado
+}
 
 Lista_Itens* remover_item(Lista_Itens* lista, Itens* item){
     Lista_Itens* item_atual = lista;
@@ -52,7 +52,7 @@ Lista_Itens* remover_item(Lista_Itens* lista, Itens* item){
     free(item_atual);
     printf("Item removido da lista.\n");
     return lista;
-} //verificado
+}
 
 Lista_Itens* verificar_existencia(Lista_Itens* lista, Itens* item, Menu_Pedido tipo){
     Lista_Itens* auxiliar;
@@ -75,7 +75,7 @@ Lista_Itens* verificar_existencia(Lista_Itens* lista, Itens* item, Menu_Pedido t
         }
     }
     return NULL;
-}// verificado
+}
 
 void alterar_quantidade(Lista_Itens* lista, Itens* item, int quantidade){
     if(lista == NULL || item == NULL){
@@ -90,7 +90,7 @@ void alterar_quantidade(Lista_Itens* lista, Itens* item, int quantidade){
             return;
         }
     } 
-}// verificado
+}
 
 void modificar_item(Lista_Itens* lista, Itens* item, Itens* itemAux){
     Lista_Itens* auxiliar;
@@ -152,39 +152,6 @@ void imprimir_itens(Itens* itens_array, int tamanho){
     }
 }// verificado
 
-Pedido* preencher_pedido(Pedido** novo_pedido, Lista_Itens** lista){
-    (*novo_pedido) = alocar_memoria(sizeof(Pedido));
-
-    Lista_Itens* auxiliar;
-    double soma = 0;
-    (*novo_pedido)->id = rand() % 1000 + 1;
-    (*novo_pedido)->lista = *lista;
-    int status_encontrado = 0;
-
-    for(auxiliar = *lista; auxiliar != NULL; auxiliar = auxiliar->proxItem){
-        if(auxiliar->tipo == COLETA_ENTREGA && (strcmp(auxiliar->item->nome, "Apenas coleta") == 0 || strcmp(auxiliar->item->nome, "Coleta e entrega") == 0)){
-            status_encontrado = 1;
-            break;
-        }
-    }
-
-    (*novo_pedido)->status = (status_encontrado) ? PENDENTE_PROCESSAMENTO : PENDENTE_COLETA;
-
-    for(auxiliar = *lista; auxiliar != NULL; auxiliar = auxiliar->proxItem){
-        soma += (auxiliar->quantidade * auxiliar->item->valor);
-    }
-    (*novo_pedido)->total_pedido = soma;
-
-    return *novo_pedido;
-}// verificado
-
-void imprimir_pedido(Pedido* pedido){
-    printf("\tId: %d\n", pedido->id);
-    imprimir_lista_itens(pedido->lista);
-    imprimir_status_pedido(pedido);
-    printf("\tTotal do pedido: %.2lf\n", pedido->total_pedido);
-}
-
 int validar_entrada(const char* print, int min, int max){
     int opcao;
     
@@ -236,6 +203,39 @@ int validar_entrada(const char* print, int min, int max){
         }while(1);
     }
     return opcao;
+}
+
+Pedido* preencher_pedido(Pedido** novo_pedido, Lista_Itens** lista){
+    (*novo_pedido) = alocar_memoria(sizeof(Pedido));
+
+    Lista_Itens* auxiliar;
+    double soma = 0;
+    (*novo_pedido)->id = 0;
+    (*novo_pedido)->lista = *lista;
+    int status_encontrado = 0;
+
+    for(auxiliar = *lista; auxiliar != NULL; auxiliar = auxiliar->proxItem){
+        if(auxiliar->tipo == COLETA_ENTREGA && (strcmp(auxiliar->item->nome, "Apenas coleta") == 0 || strcmp(auxiliar->item->nome, "Coleta e entrega") == 0)){
+            status_encontrado = 1;
+            break;
+        }
+    }
+
+    (*novo_pedido)->status = (status_encontrado) ? PENDENTE_COLETA : PENDENTE_PROCESSAMENTO;
+
+    for(auxiliar = *lista; auxiliar != NULL; auxiliar = auxiliar->proxItem){
+        soma += (auxiliar->quantidade * auxiliar->item->valor);
+    }
+    (*novo_pedido)->total_pedido = soma;
+
+    return *novo_pedido;
+}// verificado
+
+void imprimir_pedido(Pedido* pedido){
+    printf("\tId: %d\n", pedido->id);
+    imprimir_lista_itens(pedido->lista);
+    imprimir_status_pedido(pedido);
+    printf("\tTotal do pedido: %.2lf\n", pedido->total_pedido);
 }
 
 Menu_Pedido opcoes_menu(void){

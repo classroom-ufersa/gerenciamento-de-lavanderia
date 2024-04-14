@@ -4,6 +4,10 @@ Clientes* inicializar_lista_clientes(void){
     return NULL;
 }// verificado
 
+Lista_Pedidos* inicializar_lista_pedidos(void){
+    return NULL;
+}// verificado
+
 Clientes* inserir_cliente(Clientes* lista, char nome[50], char contato[15], char cpf[15]){
     Clientes* novo_cliente = alocar_memoria(sizeof(Clientes));
 
@@ -119,67 +123,46 @@ Clientes* remover_cliente(Clientes* lista, Clientes* cliente) {
     return lista;
 }
 
-Lista_Pedidos* inicializar_lista_pedidos(void){
-    return NULL;
-}// verificado
-
-
-
 Clientes* buscar_cliente(Clientes* lista){
     char nome[50];
     Clientes* auxiliar = lista;
     Clientes* resultados = NULL;
 
-    do{
+    do {
         printf("\nDigite o nome do cliente: ");
         scanf(" %[^\n]", nome);
         nome[strcspn(nome, "\n")] = '\0';
-    }while (validar_nome(nome) == 1);
+    } while (validar_nome(nome) == 1);
     formatar_nome(nome);
 
-    while(auxiliar != NULL){
-        if(strcmp(auxiliar->nome, nome) == 0){
-            resultados = inserir_cliente(resultados, auxiliar->nome, auxiliar->contato, auxiliar->Cpf);
+    while (auxiliar != NULL) {
+        if (strcmp(auxiliar->nome, nome) == 0) {
+            if (resultados == NULL) {
+                resultados = auxiliar;
+            } else {
+                printf("Foram encontrados mais de um cliente com o mesmo nome.\n");
+                printf("Cliente: %s\n", resultados->nome);
+                printf("Digite o CPF do cliente desejado para confirmar a operacao: ");
+                char cpf[15];
+                scanf(" %[^\n]", cpf);
+                formatar_cpf(cpf);
+                cpf[strcspn(cpf, "\n")] = '\0';
+
+                if (strcmp(auxiliar->Cpf, cpf) == 0) {
+                    return auxiliar;
+                }
+            }
         }
         auxiliar = auxiliar->prox;
     }
 
-    if(resultados == NULL){
+    if (resultados == NULL) {
         printf("Cliente não encontrado no sistema.\n");
-        return NULL;
-    }
-
-    if(resultados->prox != NULL){
-        char cpf[15];
-        int encontrado = 0;
-        Clientes* cliente = resultados;
-
-        do{
-            printf("Foram encontrados mais de um cliente com o mesmo nome.\n");
-            printf("Digite o CPF do cliente desejado para confirmar a operacao: ");
-            scanf(" %[^\n]", cpf);
-            formatar_cpf(cpf);
-            cpf[strcspn(cpf, "\n")] = '\0';
-            
-
-            while(cliente != NULL){
-                if (strcmp(cliente->Cpf, cpf) == 0){
-                    encontrado = 1;
-                    break;
-                }
-                cliente = cliente->prox;
-            }
-
-            if (!encontrado) {
-                printf("CPF inserido nao corresponde a nenhum cliente encontrado. Tente novamente.\n");
-            }
-        }while(!encontrado);
-
-        return cliente;
     }
 
     return resultados;
 }
+
 
 Clientes* buscar_cliente_por_cpf(Clientes* lista, const char* cpf) {
     Clientes* atual = lista;
@@ -194,58 +177,82 @@ Clientes* buscar_cliente_por_cpf(Clientes* lista, const char* cpf) {
     return NULL;
 }
 
-Lista_Pedidos* inicializar_lista_pedidos(void){
-    return NULL;
-}// verificado
+void atualizar_ids_pedidos(Lista_Pedidos* lista) {
+    Lista_Pedidos* atual = lista;
+    int id_contador = 1;
 
-void adicionar_pedidos(Clientes* cliente, Pedido* pedido){
+    while(atual != NULL){
+        atual->pedido->id = id_contador;
+        id_contador++;
+        atual = atual->prox;
+    }
+}
+
+void adicionar_pedidos(Clientes* lista_principal, Clientes* cliente_aux, Pedido* pedido) {
     Lista_Pedidos* novo_pedido = alocar_memoria(sizeof(Lista_Pedidos));
+    int id_contador = 1;
 
     novo_pedido->pedido = pedido;
     novo_pedido->prox = NULL;
 
-    Lista_Pedidos* atual = cliente->lista;
+    // Procura o cliente dentro da lista principal
+    Clientes* atual = lista_principal;
+    while (atual != NULL) {
+        if (strcmp(atual->Cpf, cliente_aux->Cpf) == 0) {
+            // Cliente encontrado, agora adiciona o pedido à lista de pedidos do cliente
+            Lista_Pedidos* aux = atual->lista;
+            Lista_Pedidos* anterior = NULL;
+
+            // Percorre a lista de pedidos para encontrar o último nó
+            while (aux != NULL) {
+                anterior = aux;
+                aux = aux->prox;
+                id_contador++;
+            }
+
+            // Adiciona o novo pedido ao final da lista de pedidos do cliente
+            if (anterior == NULL) {
+                novo_pedido->pedido->id = 1;
+                novo_pedido->prox = atual->lista;
+                atual->lista = novo_pedido;
+            } else {
+                novo_pedido->pedido->id = id_contador++;
+                anterior->prox = novo_pedido;
+                novo_pedido->prox = aux;
+            }
+
+            // Sai do loop, pois o cliente foi encontrado e o pedido adicionado
+            break;
+        }
+        atual = atual->prox;
+    }
+}
+
+Lista_Pedidos* remover_pedido(Clientes* lista_principal, Clientes* cliente_aux, Pedido* pedido) {
+    Lista_Pedidos* atual = cliente_aux->lista;
     Lista_Pedidos* anterior = NULL;
 
-    while(atual != NULL && atual->pedido->id < pedido->id){
+    while (atual != NULL && atual->pedido != pedido) {
         anterior = atual;
         atual = atual->prox;
     }
 
-    if(anterior == NULL){
-        novo_pedido->prox = cliente->lista;
-        cliente->lista = novo_pedido;
-    }
-    else{
-        anterior->prox = novo_pedido;
-        novo_pedido->prox = atual;
-    }
-}// verificado
-
-Lista_Pedidos* remover_pedido(Clientes* cliente, Pedido* pedido){
-    Lista_Pedidos* atual = cliente->lista;
-    Lista_Pedidos* anterior = NULL;
-
-    while(atual != NULL && atual->pedido != pedido){
-        anterior = atual;
-        atual = atual->prox;
-    }
-
-    if(atual == NULL){
+    if (atual == NULL) {
         printf("Pedido não encontrado na lista.\n");
-        return cliente->lista;
+        return cliente_aux->lista;
     }
 
-    if(anterior == NULL){
-        cliente->lista = atual->prox;
+    if (anterior == NULL) {
+        cliente_aux->lista = atual->prox;
     } else {
         anterior->prox = atual->prox;
     }
 
     free(atual);
+    atualizar_ids_pedidos(cliente_aux->lista); // Se necessário, atualiza os IDs dos pedidos
     printf("Pedido retirado da lista.\n");
-    return cliente->lista;
-}// verificado
+    return cliente_aux->lista;
+}
 
 void limpabuffer(){
     int c;
@@ -346,6 +353,27 @@ int validar_cpf(char entrada[15]) {
 
     return 1; 
 }
+
+void formatar_cpf(char *cpf){
+    int tamanho = strlen(cpf);
+    char novo_cpf[15]; 
+    int pos = 0;
+
+    for (int i = 0; i < tamanho; i++){
+        if (isdigit(cpf[i])) {
+            if (pos == 3 || pos == 7) {
+                novo_cpf[pos++] = '.';
+            } else if (pos == 11) {
+                novo_cpf[pos++] = '-';
+            }
+            novo_cpf[pos++] = cpf[i];
+        }
+    }
+
+    novo_cpf[pos] = '\0';
+    strcpy(cpf, novo_cpf);
+}
+
 void imprimir_lista_pedidos(Clientes* cliente){
     Lista_Pedidos* auxiliar;
 
@@ -378,7 +406,7 @@ void escrever_arquivo(Clientes* lista){
     Lista_Pedidos* pedidos;
 
     for(auxiliar = lista; auxiliar != NULL; auxiliar = auxiliar->prox){
-        fprintf(arquivo, "Cliente:\nNome: %s\nContato: %s\nLista de pedidos:\n", auxiliar->nome, auxiliar->contato);
+        fprintf(arquivo, "Cliente:\nNome: %s\nContato: %s\nCPF: %s\nLista de pedidos:\n", auxiliar->nome, auxiliar->contato, auxiliar->Cpf);
 
         pedidos = auxiliar->lista;
         if(pedidos != NULL){
@@ -414,7 +442,7 @@ void imprimir_clientes_pedidos(Clientes* lista){
     }
     else{
         for(auxiliar = lista; auxiliar != NULL; auxiliar = auxiliar->prox){
-            printf("\nCliente:\nNome: %s\nContato: %s\nLista de pedidos:\n", auxiliar->nome, auxiliar->contato);
+            printf("\nCliente:\nNome: %s\nContato: %s\nCPF: %s\nLista de pedidos:\n", auxiliar->nome, auxiliar->contato, auxiliar->Cpf);
 
             pedidos = auxiliar->lista;
             if(pedidos != NULL){
@@ -482,6 +510,9 @@ void ler_arquivo_teste(FILE* arquivo, Clientes** lista){
 
             fgets(linha, sizeof(linha), arquivo);
             sscanf(linha, "Contato: %[^\n]\n", novo_cliente->contato);
+
+            fgets(linha, sizeof(linha), arquivo);
+            sscanf(linha, "CPF: %[^\n]\n", novo_cliente->Cpf);
 
             fgets(linha, sizeof(linha), arquivo);
 

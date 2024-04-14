@@ -36,14 +36,18 @@ int main(void){
                 cliente_lista = adicionar_clientes(cliente_lista);
                 break;
             case 2:
-                cliente_lista = remover_cliente(cliente_lista);
+                cliente_aux = buscar_cliente(cliente_lista);
+                if (cliente_aux != NULL) {
+                    cliente_lista = remover_cliente(cliente_lista, cliente_aux);
+                }
                 break;
             case 3:
                 cliente_aux = buscar_cliente(cliente_lista);
                 if(cliente_aux != NULL){
                     pedido_aux = menu_pedido();
+                    imprimir_pedido(pedido_aux);
                     if(pedido_aux != NULL){
-                        adicionar_pedidos(cliente_aux, pedido_aux);
+                        adicionar_pedidos(cliente_lista, cliente_aux, pedido_aux);
                     }
                     else{
                         printf("\nPedido cancelado.\n");
@@ -56,7 +60,7 @@ int main(void){
                     imprimir_lista_pedidos(cliente_aux);
                     id_aux = validar_entrada("Digite o id do pedido a ser removido: ", 0, 0);
                     pedido_aux = buscar_pedido(cliente_aux, id_aux);
-                    remover_pedido(cliente_aux, pedido_aux);
+                    remover_pedido(cliente_lista, cliente_aux, pedido_aux);
                 }
                 break;
             case 5:
