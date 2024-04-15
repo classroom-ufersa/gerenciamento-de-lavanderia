@@ -143,9 +143,9 @@ void escrever_arquivo(Clientes* lista);
 void imprimir_clientes_pedidos(Clientes* lista);
 
 /*
- * @brief Libera a mem�ria alocada para a lista de clientes
+ * @brief Libera a memória alocada para a lista de clientes
  *
- * @param Clientes *inicio In�cio da lista encadeada de clientes
+ * @param Clientes *inicio Inicio da lista encadeada de clientes
  *
  * @return void
  *  */
