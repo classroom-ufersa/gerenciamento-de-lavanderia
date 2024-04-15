@@ -233,7 +233,7 @@ Lista_Pedidos* remover_pedido(Clientes* lista_principal, Clientes* cliente_aux, 
     Lista_Pedidos* atual = cliente_aux->lista;
     Lista_Pedidos* anterior = NULL;
 
-    while(atual != NULL && atual->pedido != pedido){
+    while(atual != NULL && atual->pedido->id != pedido->id){
         anterior = atual;
         atual = atual->prox;
     }

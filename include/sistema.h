@@ -7,7 +7,8 @@
  * @param void
  *
  * @return void
- *  */
+ *  
+ * */
 void limpabuffer(void);
 
 /*
