@@ -40,15 +40,12 @@ typedef struct lista_itens{
     struct lista_itens* proxItem;
 }Lista_Itens;
 
-struct pedido{
+typedef struct pedido{
     int id;
     Lista_Itens* lista;
     Status_Pedido status;
     double total_pedido;
-};
-
-typedef struct pedido Pedido;
-
+}Pedido;
 
 
 // Declaração das funções relacionadas aos itens (Itens, Lista_Itens)

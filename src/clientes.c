@@ -188,68 +188,65 @@ void atualizar_ids_pedidos(Lista_Pedidos* lista) {
     }
 }
 
-void adicionar_pedidos(Clientes* lista_principal, Clientes* cliente_aux, Pedido* pedido) {
+void adicionar_pedidos(Clientes* lista_principal, Clientes* cliente_aux, Pedido* pedido){
     Lista_Pedidos* novo_pedido = alocar_memoria(sizeof(Lista_Pedidos));
     int id_contador = 1;
 
     novo_pedido->pedido = pedido;
     novo_pedido->prox = NULL;
 
-    // Procura o cliente dentro da lista principal
     Clientes* atual = lista_principal;
-    while (atual != NULL) {
-        if (strcmp(atual->Cpf, cliente_aux->Cpf) == 0) {
-            // Cliente encontrado, agora adiciona o pedido à lista de pedidos do cliente
+    while(atual != NULL){
+        if(strcmp(atual->Cpf, cliente_aux->Cpf) == 0){
             Lista_Pedidos* aux = atual->lista;
             Lista_Pedidos* anterior = NULL;
 
-            // Percorre a lista de pedidos para encontrar o último nó
-            while (aux != NULL) {
+            while(aux != NULL){
                 anterior = aux;
                 aux = aux->prox;
                 id_contador++;
             }
 
-            // Adiciona o novo pedido ao final da lista de pedidos do cliente
-            if (anterior == NULL) {
+            if(anterior == NULL){
                 novo_pedido->pedido->id = 1;
                 novo_pedido->prox = atual->lista;
                 atual->lista = novo_pedido;
-            } else {
+            } 
+            else{
                 novo_pedido->pedido->id = id_contador++;
                 anterior->prox = novo_pedido;
                 novo_pedido->prox = aux;
             }
 
-            // Sai do loop, pois o cliente foi encontrado e o pedido adicionado
             break;
         }
         atual = atual->prox;
     }
 }
 
-Lista_Pedidos* remover_pedido(Clientes* lista_principal, Clientes* cliente_aux, Pedido* pedido) {
+Lista_Pedidos* remover_pedido(Clientes* lista_principal, Clientes* cliente_aux, Pedido* pedido){
     Lista_Pedidos* atual = cliente_aux->lista;
     Lista_Pedidos* anterior = NULL;
 
-    while (atual != NULL && atual->pedido != pedido) {
+    while(atual != NULL && atual->pedido != pedido){
         anterior = atual;
         atual = atual->prox;
     }
 
-    if (atual == NULL) {
+    if(atual == NULL){
         printf("Pedido não encontrado na lista.\n");
         return cliente_aux->lista;
     }
 
-    if (anterior == NULL) {
+    if(anterior == NULL){
         cliente_aux->lista = atual->prox;
-    } else {
+    } 
+    else{
         anterior->prox = atual->prox;
     }
 
     free(atual);
-    atualizar_ids_pedidos(cliente_aux->lista); // Se necessário, atualiza os IDs dos pedidos
+    atualizar_ids_pedidos(cliente_aux->lista);
     printf("Pedido retirado da lista.\n");
     return cliente_aux->lista;
 }
@@ -379,6 +376,7 @@ void imprimir_lista_pedidos(Clientes* cliente){
 
     for(auxiliar = cliente->lista; auxiliar != NULL; auxiliar = auxiliar->prox){
         imprimir_pedido(auxiliar->pedido);
+        printf("\n");
     }
 }// verificado
 

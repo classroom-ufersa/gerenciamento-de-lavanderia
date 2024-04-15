@@ -29,27 +29,27 @@ Lista_Itens* inserir_item(Lista_Itens* lista, Itens* item, int quantidade, Menu_
 }
 
 Lista_Itens* remover_item(Lista_Itens* lista, Itens* item){
-    Lista_Itens* item_atual = lista;
-    Lista_Itens* item_anterior = NULL;
+    Lista_Itens* atual = lista;
+    Lista_Itens* anterior = NULL;
 
-    while(item_atual != NULL && strcmp(item_atual->item->nome, item->nome) != 0){
-        item_anterior = item_atual;
-        item_atual = item_atual->proxItem;
+    while(atual != NULL && strcmp(atual->item->nome, item->nome) != 0){
+        anterior = atual;
+        atual = atual->proxItem;
     }
 
-    if(item_atual == NULL){
+    if(atual == NULL){
         printf("Item não encontrado na lista.\n");
         return lista;
     }
 
-    if(item_anterior == NULL){
-        lista = item_atual->proxItem;
+    if(anterior == NULL){
+        lista = atual->proxItem;
     }
     else{
-        item_anterior->proxItem = item_atual->proxItem;
+        anterior->proxItem = atual->proxItem;
     }
 
-    free(item_atual);
+    free(atual);
     printf("Item removido da lista.\n");
     return lista;
 }
@@ -102,7 +102,7 @@ void modificar_item(Lista_Itens* lista, Itens* item, Itens* itemAux){
             break;
         }
     }
-}// verificado
+}
 
 void imprimir_lista_itens(Lista_Itens* lista){
     Lista_Itens* auxiliar = lista;
@@ -112,7 +112,7 @@ void imprimir_lista_itens(Lista_Itens* lista){
         printf("\t\t%dx %s\t%.2lf\n", auxiliar->quantidade, auxiliar->item->nome, auxiliar->item->valor * auxiliar->quantidade);
         auxiliar = auxiliar->proxItem;
     }
-}// verificado
+}
 
 void realocar_memoria(Itens** novo, int* tamanho){
     (*tamanho)++;
@@ -121,7 +121,7 @@ void realocar_memoria(Itens** novo, int* tamanho){
         printf("Erro ao realocar memória.\n");
         exit(EXIT_FAILURE);
     }
-}// verificado
+}
 
 Itens* arrays_itens(FILE* arquivo){
     int tamanho = 0;
@@ -143,14 +143,14 @@ Itens* arrays_itens(FILE* arquivo){
     fclose(arquivo);
 
     return novo;
-}// verificado
+}
 
 void imprimir_itens(Itens* itens_array, int tamanho){
     int i;
     for(i = 0; i < tamanho; i++){
         printf("%d\t%s\tR$ %.2lf\n", i, itens_array[i].nome, itens_array[i].valor);
     }
-}// verificado
+}
 
 int validar_entrada(const char* print, int min, int max){
     int opcao;
@@ -248,7 +248,7 @@ Menu_Pedido opcoes_menu(void){
         "Escolha uma opção: ", 1, 3);
 
     return (Menu_Pedido)opcao;
-}// verificado
+}
 
 void processar_servico(Itens* servico, Lista_Itens** novo_item, Menu_Pedido opcao, int quantidade_itens){
     int opcao3, opcao4, quantidade, auxiliar;

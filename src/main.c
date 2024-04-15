@@ -45,7 +45,6 @@ int main(void){
                 cliente_aux = buscar_cliente(cliente_lista);
                 if(cliente_aux != NULL){
                     pedido_aux = menu_pedido();
-                    imprimir_pedido(pedido_aux);
                     if(pedido_aux != NULL){
                         adicionar_pedidos(cliente_lista, cliente_aux, pedido_aux);
                     }
