@@ -9,32 +9,6 @@ Este é um projeto desenvolvido em linguagem C para gerenciar as operações bá
 - **Atualização do status dos pedidos:** Os funcionários podem atualizar o status dos pedidos, indicando se foram concluídos, aguardando retirada, etc.
 - **Busca de clientes e pedidos:** Oferece funcionalidades para buscar clientes por nome ou CPF, bem como buscar pedidos por número de pedido ou status.
 
-
-```plaintext
-GerenciamentoDeLavanderia/
-│
-├── src/
-│   ├── main.c
-│   ├── clientes.c
-│   ├── pedidos.c
-│   ├── sistema.c
-│
-├── include/
-│   ├── clientes.h
-│   ├── pedidos.h
-│   └── sistema.h
-│
-├── bin/
-│   ├── main.o
-│   ├── clientes.o
-│   ├── pedidos.o
-│   ├── sistema.o
-│   └── main.exe
-│
-├── arquivo_geral.txt
-├── lavagem.txt
-└── coleta_entrega.txt
-
 ## Como usar
 
 1. Clone este repositório para o seu computador
