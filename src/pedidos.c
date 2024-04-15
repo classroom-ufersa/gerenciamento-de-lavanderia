@@ -1,13 +1,5 @@
+#include "../include/sistema.h"
 #include "../include/pedidos.h"
-
-void* alocar_memoria(size_t tamanho){
-    void* ptr = malloc(tamanho);
-    if (ptr == NULL) {
-        printf("Erro ao alocar memória.\n");
-        exit(EXIT_FAILURE);
-    }
-    return ptr;
-}
 
 Lista_Itens* inicializar_lista_itens(void){
     return NULL;
@@ -152,58 +144,6 @@ void imprimir_itens(Itens* itens_array, int tamanho){
     }
 }
 
-int validar_entrada(const char* print, int min, int max){
-    int opcao;
-    
-    if(max == 0 && min == 0){
-        do{
-            printf("%s", print);
-            char entrada[50];
-            scanf(" %[^\n]", entrada);
-            entrada[strcspn(entrada, "\n")] = '\0';
-
-            int tamanho = strlen(entrada);
-
-            if(tamanho > 0 && isdigit(entrada[0])){
-                opcao = atoi(entrada);
-                if(opcao > 0){
-                    break;
-                }
-                else{
-                    printf("\nQuantidade inválida, certifique-se de digitar um número inteiro e maior que 0.\n");
-                }
-                
-            }
-            else{
-                printf("\nQuantidade inválida, certifique-se de digitar um número inteiro.\n");
-            }
-        }while(1);
-    }
-    else{
-        do{
-            printf("%s", print);
-            char entrada[50];
-            scanf(" %[^\n]", entrada);
-            entrada[strcspn(entrada, "\n")] = '\0';
-
-            int tamanho = strlen(entrada);
-
-            if(tamanho == 1 && isdigit(entrada[0])){
-                opcao = atoi(entrada);
-                if (opcao >= min && opcao <= max) {
-                    break;
-                } 
-                else{
-                    printf("Opção inválida, certifique-se de que a opcao digitada seja uma opção da lista.\n");
-                }
-            } 
-            else{
-                printf("Opção inválida, certifique-se de que a opcao digitada seja uma opção da lista.\n");
-            }
-        }while(1);
-    }
-    return opcao;
-}
 
 Pedido* preencher_pedido(Pedido** novo_pedido, Lista_Itens** lista){
     (*novo_pedido) = alocar_memoria(sizeof(Pedido));

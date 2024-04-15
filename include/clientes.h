@@ -95,63 +95,6 @@ void adicionar_pedidos(Clientes* lista_principal, Clientes* cliente, Pedido* ped
  *  */
 Lista_Pedidos* remover_pedido(Clientes* lista_principal, Clientes* cliente, Pedido* pedido);
 
-/*
- * @brief Limpa o buffer do teclado
- *
- * @param void
- * @param void
- *
- * @return void
- *  */
-void limpabuffer(void);
-
-/*
- * @brief Valida o nome do cliente
- *
- * @param char nome[50] Nome do cliente
- *
- * @return int Retorna 1 se o nome for valido e 0 caso contrario
- *  */
-int validar_nome(char nome[50]);
-
-/*
- * @brief Formata o nome do cliente
- *
- * @param char *nome Nome do cliente
- *
- * @return void
- *  */
-void formatar_nome(char *nome);
-
-/*
- * @brief Valida o contato do cliente
- *
- * @param char entrada[15] Contato do cliente
- *
- * @return int Retorna 1 se o contato for v�lido e 0 caso contr�rio
- *  */
-int validar_contato(char entrada[15]);
-
-/*
- * @brief Formata o contato do cliente
- *
- * @param char *numero Contato do cliente
- *
- * @return void
- *  */
-void formatar_contato(char *numero);
-
-/*
- * @brief Valida o CPF do cliente
- *
- * @param char entrada[15] CPF do cliente
- *
- * @return int Retorna 1 se o CPF for v�lido e 0 caso contr�rio
- *  */
-
-int validar_cpf(char entrada[15]);
-
-void formatar_cpf(char *cpf);
 
 /*
  * @brief Imprime a lista de clientes
@@ -218,6 +161,13 @@ void liberar_memoria_clientes(Clientes* inicio) ;
  *  */
 void ler_arquivo_teste(FILE* arquivo, Clientes** lista);
 
+/*
+* @brief Busca um cliente na lista de clientes
+* @param Clientes* lista Lista encadeada de clientes
+* @param const char* cpf CPF do cliente a ser buscado
+
+* @return Clientes* Retorna o cliente encontrado
+*/
 Clientes* buscar_cliente_por_cpf(Clientes* lista, const char* cpf);
 
 #endif

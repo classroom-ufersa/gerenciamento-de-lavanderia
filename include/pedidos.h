@@ -49,7 +49,6 @@ typedef struct pedido{
 
 
 // Declaração das funções relacionadas aos itens (Itens, Lista_Itens)
-void* alocar_memoria(size_t tamanho);
 Lista_Itens* inicializar_lista_itens(void);
 Lista_Itens* inserir_item(Lista_Itens* lista, Itens* item, int quantidade, Menu_Pedido tipo);
 Lista_Itens* remover_item(Lista_Itens* lista, Itens* item);
@@ -70,7 +69,6 @@ void escrever_status_pedido(FILE* arquivo, Pedido* pedido);
 void imprimir_status_pedido(Pedido* pedido);
 
 // Funções auxiliares ou de utilidade geral
-int validar_entrada(const char* print, int min, int max);
 Menu_Pedido opcoes_menu(void);
 void processar_servico(Itens* servico, Lista_Itens** novo_item, Menu_Pedido tipo, int quantidade_itens);
 void modificar_status(Pedido* pedido);
