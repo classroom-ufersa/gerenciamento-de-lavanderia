@@ -9,11 +9,31 @@ Este é um projeto desenvolvido em linguagem C para gerenciar as operações bá
 - **Atualização do status dos pedidos:** Os funcionários podem atualizar o status dos pedidos, indicando se foram concluídos, aguardando retirada, etc.
 - **Busca de clientes e pedidos:** Oferece funcionalidades para buscar clientes por nome ou CPF, bem como buscar pedidos por número de pedido ou status.
 
-## Pré-requisitos
 
-- Compilador de C compatível com o padrão C99.
-- Sistema operacional compatível com a execução de programas em linguagem C.
-- Conhecimento básico de C e estruturas de dados.
+```plaintext
+GerenciamentoDeLavanderia/
+│
+├── src/
+│   ├── main.c
+│   ├── clientes.c
+│   ├── pedidos.c
+│   ├── sistema.c
+│
+├── include/
+│   ├── clientes.h
+│   ├── pedidos.h
+│   └── sistema.h
+│
+├── bin/
+│   ├── main.o
+│   ├── clientes.o
+│   ├── pedidos.o
+│   ├── sistema.o
+│   └── main.exe
+│
+├── arquivo_geral.txt
+├── lavagem.txt
+└── coleta_entrega.txt
 
 ## Como usar
 
@@ -36,3 +56,31 @@ O projeto é estruturado da seguinte forma:
 - **clientes.h** e **clientes.c:** Arquivos de cabeçalho e implementação das funções relacionadas aos clientes.
 - **pedidos.h** e **pedidos.c:** Arquivos de cabeçalho e implementação das funções relacionadas aos pedidos.
 - **sistema.h** e **sistema.c:** Arquivos de cabeçalho e implementação de funções utilitárias.
+
+A estrutura de diretórios do projeto é organizada da seguinte maneira:
+
+```plaintext
+GerenciamentoDeLavanderia/
+│
+├── src/
+│   ├── main.c
+│   ├── clientes.c
+│   ├── pedidos.c
+│   ├── sistema.c
+│
+├── include/
+│   ├── clientes.h
+│   ├── pedidos.h
+│   └── sistema.h
+│
+├── bin/
+│   ├── main.o
+│   ├── clientes.o
+│   ├── pedidos.o
+│   ├── sistema.o
+│   └── main.exe
+│
+├── arquivo_geral.txt
+├── lavagem.txt
+└── coleta_entrega.txt
+```
