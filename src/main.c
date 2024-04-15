@@ -18,7 +18,6 @@ int main(void){
     Pedido* pedido_aux = NULL;
 
     ler_arquivo_teste(arquivo, &cliente_lista);
-    printf("arquivo lido");
     fclose(arquivo);
 
     do{
@@ -66,7 +65,6 @@ int main(void){
             case 5:
                 cliente_aux = buscar_cliente(cliente_lista);
                 if(cliente_aux != NULL){
-                    imprimir_lista_pedidos(cliente_aux);
                     id_aux = validar_entrada("Digite o id do pedido para mudar o status: ", 0, 0);
                     pedido_aux = buscar_pedido(cliente_aux, id_aux);
                     modificar_status(pedido_aux);

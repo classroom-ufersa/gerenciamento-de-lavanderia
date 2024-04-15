@@ -19,21 +19,24 @@ Clientes* inserir_cliente(Clientes* lista, char nome[50], char contato[15], char
     Lista_Pedidos* lista_pedidos = inicializar_lista_pedidos();
     novo_cliente->lista = lista_pedidos;
 
-    if(lista == NULL || (strcmp(nome, lista->nome) < 0) || (strcmp(nome, lista->nome) == 0 && strcmp(cpf, lista->Cpf) < 0)){
+    if(lista == NULL || strcmp(nome, lista->nome) < 0 || (strcmp(nome, lista->nome) == 0 && strcmp(cpf, lista->Cpf) < 0)){
         novo_cliente->prox = lista;
         return novo_cliente;
     }
 
-    Clientes* anterior = lista;
-    while(anterior->prox != NULL && strcmp(nome, anterior->prox->nome) == 0){
-        anterior = anterior->prox;
+    Clientes* atual = lista;
+    Clientes* anterior = NULL;
+    while(atual != NULL && strcmp(nome, atual->nome) > 0){
+        anterior = atual;
+        atual = atual->prox;
     }
 
-    novo_cliente->prox = anterior->prox;
     anterior->prox = novo_cliente;
+    novo_cliente->prox = atual;
 
     return lista;
 }
+
 
 Clientes* adicionar_clientes(Clientes* lista){
     char nome[50];
@@ -161,6 +164,7 @@ Clientes* buscar_cliente(Clientes* lista){
         printf("Cliente não encontrado no sistema.\n");
     }
 
+    imprimir_clientes_pedidos(resultados);
     return resultados;
 }
 
@@ -251,7 +255,6 @@ Lista_Pedidos* remover_pedido(Clientes* lista_principal, Clientes* cliente_aux, 
     printf("Pedido retirado da lista.\n");
     return cliente_aux->lista;
 }
-
 
 void imprimir_lista_pedidos(Clientes* cliente){
     Lista_Pedidos* auxiliar;

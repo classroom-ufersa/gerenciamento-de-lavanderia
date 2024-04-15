@@ -36,12 +36,13 @@ Lista_Itens* remover_item(Lista_Itens* lista, Itens* item){
 
     if(anterior == NULL){
         lista = atual->proxItem;
-    }
+    } 
     else{
         anterior->proxItem = atual->proxItem;
     }
 
     free(atual);
+
     printf("Item removido da lista.\n");
     return lista;
 }
@@ -223,7 +224,7 @@ void processar_servico(Itens* servico, Lista_Itens** novo_item, Menu_Pedido opca
                     }
                     break;
                 case 2:
-                    remover_item(*novo_item, &servico[opcao3]);
+                    *novo_item = remover_item(*novo_item, &servico[opcao3]);
                     break;
                 case 3:
                     break;
@@ -364,7 +365,7 @@ void escrever_lista_itens_arquivo(Lista_Itens* lista, FILE* arquivo){
 
     fprintf(arquivo, "\tLista de itens:\n");
     while(auxiliar != NULL){
-        fprintf(arquivo, "\t\t%dx %s\t%lf\n", auxiliar->quantidade, auxiliar->item->nome, auxiliar->item->valor * auxiliar->quantidade);
+        fprintf(arquivo, "\t\t%dx %s\t%.2lf\n", auxiliar->quantidade, auxiliar->item->nome, auxiliar->item->valor * auxiliar->quantidade);
         auxiliar = auxiliar->proxItem;
     }
 }
@@ -416,16 +417,34 @@ void modificar_status(Pedido* pedido){
     "1 - Em processamento\n"
     "2 - Pronto para entrega\n"
     "3 - Concluído\nEscolha uma opção: ", 1, 3);
+    int contem_entrega = 0;
+    Lista_Itens* auxiliar;
+    
+    for(auxiliar = pedido->lista; auxiliar != NULL; auxiliar = auxiliar->proxItem){
+        if(pedido->lista->tipo == COLETA_ENTREGA && strcmp(pedido->lista->item->nome, "Apenas coleta") == 0 || strcmp(pedido->lista->item->nome, "Coleta e entrega") == 0){
+            contem_entrega = 1;
+        }
+    }
+    if(pedido->status == CONCLUIDO){
+        status = 4;
+    }
 
     switch(status){
         case 1:
             pedido->status = EM_PROCESSAMENTO;
             break;
         case 2:
-            pedido->status = PRONTO_ENTREGA;
+            if(contem_entrega == 1){
+                pedido->status = PRONTO_ENTREGA;
+            }
+            else{
+                printf("Serviço não contém serviço de entrega.\n");
+            }
             break;
         case 3:
             pedido->status = CONCLUIDO;
             break;
+        case 4:
+            printf("Esse pedido já foi concluído.\n");
     }
 }
